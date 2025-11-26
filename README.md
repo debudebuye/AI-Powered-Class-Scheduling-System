@@ -1,46 +1,198 @@
-# Class Scheduling System for Arbaminch University of FCSE
+# AI Class Scheduling System
 
-This project is a class scheduling system designed specifically for Arbaminch University's Faculty of Computer Science and Engineering (FCSE).
+An intelligent scheduling system that automatically generates optimized class schedules using generative AI algorithms. Built with Python and machine learning techniques to solve complex scheduling constraints.
 
-## Features
+## 🚀 Quick Start
 
-### 1. Add Teachers
-Navigate to the "Add Teachers" section and add the corresponding details. Incorrect details can also be removed via the "Edit Teacher" option.
+### 1. Setup Virtual Environment
 
-### 2. Add Rooms
-Navigate to the "Add Rooms" section and add the corresponding details. Incorrect details can be removed via the "Edit Rooms" option.
+```bash
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
 
-### 3. Add Timings
-Navigate to the "Add Timings" section and add the corresponding details. Incorrect details can also be removed via the "Edit Timings" option.
+# Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+```
 
-### 4. Add Courses
-Navigate to the "Add Courses" section and add the corresponding details. Incorrect details can be removed via the "Edit Courses" option.
+### 2. Install Dependencies
 
-### 5. Add Departments
-Navigate to the "Add Departments" section and add the corresponding details. Incorrect details can also be removed via the "Edit Departments" option.
+```bash
+pip install -r requirements.txt
+```
 
-### 6. Add Batches
-Navigate to the "Add Batches" section and add the corresponding details. Incorrect details can be removed via the "Edit Batches" option.
+### 3. Configure Environment
 
-### 7. Add Sections
-Navigate to the "Add Sections" section and add the corresponding details. Incorrect details can also be removed via the "Edit Sections" option.
+```bash
+# Windows
+copy .env.example .env
 
-### 8. Generate 
-Navigate to the "Generate Timetable" Section and click on Generate Timetable and wait patiently as our algorithm works its magic.
+# Linux/Mac
+cp .env.example .env
+```
 
-## Usage
+Edit `.env` and set your configuration:
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=your-password
+```
 
-To use this system, follow these steps:
-- Clone the repository to your local machine.
-- Set up the necessary environment (e.g., Python, Django).
-- Install dependencies specified in `requirements.txt`.
-- Configure database settings in `settings.py`.
-- Run migrations to set up the database schema.
-- Start the Django development server.
-- Navigate to the appropriate URLs as described in each feature to add and manage data.
-- Generate the timetable using the provided functionality.
+Generate SECRET_KEY:
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
 
-## Contributing
+### 4. Setup Database
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
 
+### 5. Run Server
+
+```bash
+python manage.py runserver
+```
+
+Visit: http://127.0.0.1:8000/
+
+## ✨ AI-Powered Features
+
+- **🤖 Intelligent Timetable Generation** - Uses genetic algorithms (evolutionary AI) to automatically create optimal conflict-free schedules
+- **🧠 Machine Learning Optimization** - Evolutionary algorithms that learn and adapt to find the best scheduling solutions
+- **📊 Smart Resource Management** - AI-driven allocation of instructors, rooms, courses, departments, batches, and sections
+- **⚡ Automated Conflict Resolution** - Intelligent detection and resolution of scheduling conflicts
+- **📄 PDF Export** - Generate and download optimized timetables
+- **👥 User Management** - Secure admin authentication and user profiles
+
+## 🧬 AI Technology
+
+This system employs **Genetic Algorithms**, a class of evolutionary algorithms inspired by natural selection:
+
+- **Population-based Search**: Maintains multiple schedule solutions simultaneously
+- **Fitness Evaluation**: Intelligently scores schedules based on constraint satisfaction
+- **Natural Selection**: Automatically selects best-performing schedules
+- **Genetic Crossover**: Combines successful scheduling patterns
+- **Mutation**: Introduces variations to explore new solutions
+- **Evolution**: Iteratively improves schedules until optimal solution is found
+
+**Result**: Automatically generates optimal schedules that would take hours or days to create manually!
+
+## 🏗️ Project Structure
+
+```
+apps/
+├── account/          # User authentication and profiles
+└── schedule/         # Timetable scheduling
+    └── services/     # AI algorithms (genetic algorithm engine)
+        ├── genetic_algorithm.py      # Core AI engine
+        └── timetable_generator.py    # AI service layer
+
+config/
+└── settings/         # Environment-specific configurations
+    ├── base.py
+    ├── development.py
+    ├── staging.py
+    └── production.py
+```
+
+## 🛠️ Tech Stack
+
+- **Backend**: Django 4.2.16
+- **Language**: Python 3.8+
+- **AI/ML**: Genetic Algorithms (Evolutionary AI)
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **Frontend**: Bootstrap 4, HTML/CSS/JavaScript
+- **Optimization**: Population-based search, constraint satisfaction
+
+## 📚 Documentation
+
+- **[Full Documentation](docs/README.md)** - Complete project documentation
+- **[AI Features](docs/AI_FEATURES.md)** - Detailed AI capabilities and algorithms
+- **[Architecture Guide](docs/ARCHITECTURE.md)** - System design and patterns
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Common commands and tips
+
+## 🔧 Common Commands
+
+```bash
+# Activate virtual environment
+.\venv\Scripts\activate              # Windows
+source venv/bin/activate             # Linux/Mac
+
+# Run development server
+python manage.py runserver
+
+# Create/apply migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Collect static files
+python manage.py collectstatic
+
+# Run tests
+python manage.py test
+```
+
+## 📖 Usage
+
+1. **Add Resources**: Navigate to admin dashboard and add:
+   - Departments (CS, IT, SE)
+   - Instructors/Teachers
+   - Rooms with seating capacity
+   - Meeting times (days and time slots)
+   - Courses with assigned instructors
+
+2. **Create Batches**: Define batches and assign courses to them
+
+3. **Define Sections**: Create sections with weekly class frequency
+
+4. **Generate Timetable**: Click "Generate Timetable" and let the genetic algorithm create an optimized schedule
+
+5. **Export**: View and export the generated timetable as PDF
+
+## 🚀 Deployment
+
+For production deployment:
+
+1. Set `DEBUG=False` in `.env`
+2. Configure `ALLOWED_HOSTS`
+3. Use PostgreSQL database
+4. Set up static file serving
+5. Enable HTTPS
+6. Configure email backend
+
+See [docs/README.md](docs/README.md) for detailed deployment instructions.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+[Add your license here]
+
+## 👥 About
+
+An open-source AI-powered scheduling solution for educational institutions.
+
+## 🙏 Acknowledgments
+
+- Django Software Foundation
+- Machine Learning and AI community
+- Open-source contributors
+
+---
+
+For detailed documentation, see the [docs](docs/) folder.

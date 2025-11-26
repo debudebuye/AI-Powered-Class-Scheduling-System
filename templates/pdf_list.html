@@ -156,7 +156,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">FCSE | ScheduleView</a>
+        <a class="navbar-brand" href="#">AI Scheduling | ScheduleView</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -164,13 +164,13 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pdf_list' %}">Schedule</a>
+                    <a class="nav-link" href="{% url 'schedule:pdf_list' %}">Schedule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                    <a class="nav-link" href="{% url 'schedule:about' %}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'suggestion' %}">Suggestion</a>
+                    <a class="nav-link" href="{% url 'schedule:suggestion' %}">Suggestion</a>
                 </li>
             </ul>
         </div>
@@ -181,15 +181,15 @@
         <ul class="pdf-list">
             {% for pdf in pdfs %}
                 <li>
-                    <a href="{% url 'view_pdf' pdf.pk %}" style="text-decoration:none;text-transform:uppercase;display:inline">{{ pdf.title }}</a>
-                    <a href="{% url 'download_pdf' pdf.pk %}"  style="width: 150px;text-decoration:none;padding-left:8px;color:white; background:blue;border-radius:10px">view & Download</a>
+                    <a href="{% url 'schedule:view_pdf' pdf.pk %}" style="text-decoration:none;text-transform:uppercase;display:inline">{{ pdf.title }}</a>
+                    <a href="{% url 'schedule:download_pdf' pdf.pk %}"  style="width: 150px;text-decoration:none;padding-left:8px;color:white; background:blue;border-radius:10px">view & Download</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
 
     <footer class="footer bottom-fixed">
-        <p>&copy; 2024 Final Project of CS.</p>
+        <p>&copy; 2024 AI Scheduling Project of CS.</p>
     </footer>
 </body>
 

@@ -322,34 +322,34 @@
             <a href="javascript:void(0)" class="closebtn" id="closebtn" onclick="toggleSidebar()">&#9776;</a>
 
             <p class="nav-link system">
-                <i class="bi bi-calendar3"></i> <span class="link-title">Class Scheduling System</span>
+                <i class="bi bi-calendar3"></i> <span class="link-title">AI Class Scheduling System</span>
             </p>
-            <a class="nav-link links" href="{% url 'admindash' %}">
+            <a class="nav-link links" href="{% url 'schedule:admindash' %}">
                 <i class="bi bi-info-circle"></i> <span class="link-title">Get Started</span>
             </a>
-            <a class="nav-link links active" href="{% url 'addInstructors' %}">
+            <a class="nav-link links active" href="{% url 'schedule:addInstructors' %}">
                 <i class="bi bi-person-plus"></i> <span class="link-title">Add Teachers</span>
             </a>
-            <a class="nav-link links" href="{% url 'addRooms' %}">
+            <a class="nav-link links" href="{% url 'schedule:addRooms' %}">
                 <i class="bi bi-door-open"></i> <span class="link-title">Add Rooms</span>
             </a>
-            <a class="nav-link links" href="{% url 'addTimings' %}">
+            <a class="nav-link links" href="{% url 'schedule:addTimings' %}">
                 <i class="bi bi-clock"></i> <span class="link-title">Add Timings</span>
             </a>
-            <a class="nav-link links " href="{% url 'addCourses' %}">
+            <a class="nav-link links " href="{% url 'schedule:addCourses' %}">
                 <i class="bi bi-book"></i> <span class="link-title">Add Courses</span>
             </a>
-            <a class="nav-link links " href="{% url 'addDepts' %}">
+            <a class="nav-link links " href="{% url 'schedule:addDepts' %}">
                 <i class="bi bi-building"></i> <span class="link-title">Add Departments</span>
             </a>
-            <a class="nav-link links" href="{% url 'addBatches' %}">
+            <a class="nav-link links" href="{% url 'schedule:addBatches' %}">
                 <i class="bi bi-diagram-3"></i> <span class="link-title">Add Batch</span>
             </a>
-            <a class="nav-link links" href="{% url 'addSections' %}">
+            <a class="nav-link links" href="{% url 'schedule:addSections' %}">
                 <i class="bi bi-diagram-3"></i> <span class="link-title">Add Sections</span>
             </a>
-            <a class="nav-link links" href="{% url 'generate' %}">
-                <i class="bi bi-file-earmark-text"></i> <span class="link-title">Generate Timetable</span>
+            <a class="nav-link links" href="{% url 'schedule:generate' %}">
+                <i class="bi bi-file-earmark-text"></i> <span class="link-title">Generate AI-Optimized Timetable</span>
             </a>
             
         </nav>
@@ -381,7 +381,7 @@
                                     </div>
                                     <br>
                                     <br>
-                                    <a href="{% url 'editinstructor' %}">
+                                    <a href="{% url 'schedule:editinstructor' %}">
                                         <input value="View / Edit Teachers" class="submit"></a>
                                     &nbsp;
                                     <input type="submit" value="Add Teacher" class="submit">

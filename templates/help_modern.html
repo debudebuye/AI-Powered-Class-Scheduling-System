@@ -1,0 +1,193 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Help - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="text-center hero-content">
+            <div class="ai-badge">
+                <i class="fas fa-question-circle"></i> Help Center
+            </div>
+            <h1 class="hero-title">How Can We Help You?</h1>
+            <p class="hero-subtitle">
+                Find answers to common questions and learn how to use the AI scheduling system
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Help Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Getting Started -->
+            <div class="col-lg-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="feature-title">Getting Started</h3>
+                    <p class="feature-description mb-3">
+                        New to the system? Follow these steps to get started:
+                    </p>
+                    <ol class="text-muted">
+                        <li>Login as admin</li>
+                        <li>Add departments, courses, and instructors</li>
+                        <li>Configure rooms and time slots</li>
+                        <li>Generate your first timetable</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- How to Generate -->
+            <div class="col-lg-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="feature-title">Generate Timetable</h3>
+                    <p class="feature-description mb-3">
+                        To generate an AI-optimized timetable:
+                    </p>
+                    <ol class="text-muted">
+                        <li>Go to Dashboard</li>
+                        <li>Click "Generate Timetable"</li>
+                        <li>Select department and batch</li>
+                        <li>Let AI create the optimal schedule</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">
+                <span class="text-gradient">Frequently Asked Questions</span>
+            </h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-question-circle text-primary"></i> 
+                        What is the Genetic Algorithm?
+                    </h5>
+                    <p class="text-muted">
+                        The genetic algorithm is an AI technique that mimics natural evolution to find optimal 
+                        solutions. It creates multiple schedule variations and evolves them to find the best one.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-question-circle text-primary"></i> 
+                        How long does generation take?
+                    </h5>
+                    <p class="text-muted">
+                        Typically 10-30 seconds depending on the complexity. The AI evaluates thousands of 
+                        possible schedules to find the optimal solution.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-question-circle text-primary"></i> 
+                        Can I edit generated timetables?
+                    </h5>
+                    <p class="text-muted">
+                        Yes! After generation, you can manually edit any class assignment. The system will 
+                        warn you about conflicts if they arise.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-question-circle text-primary"></i> 
+                        How do I export timetables?
+                    </h5>
+                    <p class="text-muted">
+                        Click the "Export PDF" button on any generated timetable. You can download and 
+                        print professional-looking schedules.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Guide -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Key Features Guide</h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5 class="fw-bold">Manage Resources</h5>
+                    <p class="text-muted">
+                        Add and manage instructors, rooms, courses, departments, and batches from the dashboard.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h5 class="fw-bold">View Schedules</h5>
+                    <p class="text-muted">
+                        Browse generated timetables by department, batch, or instructor for easy access.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h5 class="fw-bold">Export & Share</h5>
+                    <p class="text-muted">
+                        Download PDF versions of timetables for printing and distribution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-5 bg-gradient">
+    <div class="container">
+        <div class="text-center text-white">
+            <h2 class="display-6 fw-bold mb-3">Still Need Help?</h2>
+            <p class="lead mb-4">
+                Contact your system administrator for additional support
+            </p>
+            <a href="{% url 'schedule:index' %}" class="btn btn-modern btn-primary-modern btn-lg">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

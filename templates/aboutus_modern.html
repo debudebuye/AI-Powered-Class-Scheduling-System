@@ -1,0 +1,178 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}About - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="text-center hero-content">
+            <div class="ai-badge">
+                <i class="fas fa-info-circle"></i> About Us
+            </div>
+            <h1 class="hero-title">About AI Class Scheduling System</h1>
+            <p class="hero-subtitle">
+                Revolutionizing educational scheduling with artificial intelligence
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="feature-title">Our Mission</h3>
+                    <p class="feature-description">
+                        To empower educational institutions with intelligent scheduling solutions that save time, 
+                        optimize resources, and eliminate conflicts through advanced AI algorithms.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="feature-title">Our Vision</h3>
+                    <p class="feature-description">
+                        To become the leading AI-powered scheduling platform for educational institutions worldwide, 
+                        making complex scheduling simple and efficient for everyone.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">
+                <span class="text-gradient">Our Technology</span>
+            </h2>
+            <p class="lead text-muted">Powered by cutting-edge AI algorithms</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h4 class="feature-title">Genetic Algorithms</h4>
+                    <p class="feature-description">
+                        Evolutionary AI that mimics natural selection to find optimal scheduling solutions
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4 class="feature-title">Machine Learning</h4>
+                    <p class="feature-description">
+                        Intelligent optimization that learns from constraints to deliver perfect schedules
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4 class="feature-title">Constraint Satisfaction</h4>
+                    <p class="feature-description">
+                        Advanced algorithms that handle complex scheduling rules and requirements
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Why Choose Us?</h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <div class="feature-icon" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">100% Conflict-Free</h5>
+                        <p class="text-muted">AI ensures no scheduling conflicts or double-bookings</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <div class="feature-icon" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Lightning Fast</h5>
+                        <p class="text-muted">Generate schedules in seconds, not hours</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <div class="feature-icon" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Optimized Results</h5>
+                        <p class="text-muted">AI finds the best possible schedule every time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <div class="feature-icon" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">User-Friendly</h5>
+                        <p class="text-muted">Intuitive interface that anyone can use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-gradient">
+    <div class="container">
+        <div class="text-center text-white">
+            <h2 class="display-6 fw-bold mb-3">Ready to Get Started?</h2>
+            <p class="lead mb-4">
+                Join institutions using AI to transform their scheduling process
+            </p>
+            <a href="{% url 'schedule:index1' %}" class="btn btn-modern btn-primary-modern btn-lg">
+                <i class="fas fa-rocket"></i> Start Now
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

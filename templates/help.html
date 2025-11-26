@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %} FCSE | Scheduling System {% endblock %}</title>
+    <title>{% block title %} AI Scheduling | Scheduling System {% endblock %}</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -112,7 +112,7 @@ header{
             <nav style="background-color: #031833;" class="navbar navbar-expand-md navbar-dark fixed-top bg-color p-3">
 
                 <a class="navbar-brand " style="font-weight: bold; font-size: 20px;" href="#"><b> <strong
-                            style="color: white;">FCSE</strong> | Scheduling System</b></a>
+                            style="color: white;">AI Scheduling</strong> | Scheduling System</b></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -120,19 +120,19 @@ header{
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item ">
-                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            <a class="nav-link" href="{% url 'schedule:index' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+                            <a class="nav-link" href="{% url 'schedule:aboutus' %}">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'help' %}">Help</a>
+                            <a class="nav-link" href="{% url 'schedule:help' %}">Help</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'account:login' %}">Login</a>
                         </li>
                         <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                            <a class="nav-link" href="{% url 'account:register' %}">Sign Up</a>
                         </li> -->
                     </ul>
                 </div>
@@ -150,7 +150,7 @@ header{
         <div class="container themed-container">6. Input the Information for the Departments</div>
         <div class="container themed-container">6. Input the Information for the Batches</div>
         <div class="container themed-container">7. Input the Information for the Sections</div>
-        <div class="container themed-container">8.then Click on "Generate Timetable"</div>
+        <div class="container themed-container">8.then Click on "Generate AI-Optimized Timetable"</div>
         <div class="container themed-container">9. The Timetable can then be downloaded as a PDF Document</div>
     </form>
 </body>

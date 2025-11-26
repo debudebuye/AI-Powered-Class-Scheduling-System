@@ -1,0 +1,250 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Home - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <div class="ai-badge">
+                    <i class="fas fa-robot"></i> Powered by Evolutionary AI
+                </div>
+                <h1 class="hero-title">
+                    Intelligent Class Scheduling Made Simple
+                </h1>
+                <p class="hero-subtitle">
+                    Automatically generate optimal class schedules using advanced genetic algorithms. 
+                    Save hours of manual work with AI-powered optimization.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'schedule:index1' %}" class="btn btn-modern btn-primary-modern">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </a>
+                    <a href="{% url 'schedule:aboutus' %}" class="btn btn-modern btn-outline-modern">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                <div class="hero-illustration">
+                    <i class="fas fa-brain fa-10x" style="opacity: 0.9;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card">
+                    <div class="stats-number">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="stats-label">AI-Powered</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card">
+                    <div class="stats-number">100%</div>
+                    <div class="stats-label">Conflict-Free</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card">
+                    <div class="stats-number">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stats-label">Fast Generation</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card">
+                    <div class="stats-number">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stats-label">Optimized</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">
+                <span class="text-gradient">AI-Powered Features</span>
+            </h2>
+            <p class="lead text-muted">
+                Leverage cutting-edge evolutionary algorithms for intelligent scheduling
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">Genetic Algorithm</h3>
+                    <p class="feature-description">
+                        Uses evolutionary AI to find optimal schedules by mimicking natural selection. 
+                        Automatically handles complex constraints and conflicts.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Optimization</h3>
+                    <p class="feature-description">
+                        Intelligent resource allocation for instructors, rooms, and time slots. 
+                        Maximizes efficiency while satisfying all constraints.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Conflict Resolution</h3>
+                    <p class="feature-description">
+                        Automatically detects and resolves scheduling conflicts. 
+                        Ensures no double-booking or capacity issues.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Resource Management</h3>
+                    <p class="feature-description">
+                        Comprehensive management of instructors, rooms, courses, departments, 
+                        batches, and sections all in one place.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3 class="feature-title">PDF Export</h3>
+                    <p class="feature-description">
+                        Generate professional PDF timetables with one click. 
+                        Easy to share and print for distribution.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics</h3>
+                    <p class="feature-description">
+                        Track scheduling efficiency and resource utilization. 
+                        Make data-driven decisions for better planning.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+            <p class="lead text-muted">Simple 4-step process to generate optimal schedules</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h5 class="fw-bold">1. Add Resources</h5>
+                    <p class="text-muted">
+                        Input instructors, rooms, courses, and time slots
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h5 class="fw-bold">2. Set Constraints</h5>
+                    <p class="text-muted">
+                        Define requirements and preferences
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h5 class="fw-bold">3. AI Generation</h5>
+                    <p class="text-muted">
+                        Let AI create optimal schedule
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h5 class="fw-bold">4. Export & Use</h5>
+                    <p class="text-muted">
+                        Download and distribute timetables
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-gradient">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 text-white">
+                <h2 class="display-6 fw-bold mb-3">Ready to Transform Your Scheduling?</h2>
+                <p class="lead mb-0">
+                    Join institutions using AI to save time and optimize resources
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <a href="{% url 'schedule:index1' %}" class="btn btn-modern btn-primary-modern btn-lg">
+                    <i class="fas fa-rocket"></i> Get Started Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

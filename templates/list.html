@@ -93,13 +93,13 @@
 </head>
 <body>
     <div class="container">
-        <a class="upload-button" href="{% url 'upload_pdf' %}">Back</a>
+        <a class="upload-button" href="{% url 'schedule:upload_pdf' %}">Back</a>
         <h1>PDF List</h1>
         <ul>
             {% for pdf in pdfs %}
                 <li>
                     <a style="text-decoration:none">{{ pdf.title }}</a>
-                    <form action="{% url 'delete_pdf' pdf.pk %}" method="post" style="margin: 0;">
+                    <form action="{% url 'schedule:delete_pdf' pdf.pk %}" method="post" style="margin: 0;">
                         {% csrf_token %}
                         <button type="submit" class="delete-button">Delete</button>
                     </form>

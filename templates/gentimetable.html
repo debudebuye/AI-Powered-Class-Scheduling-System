@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TTGS | Generate Timetable</title>
+  <title>TTGS | Generate AI-Optimized Timetable</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -323,11 +323,11 @@
 
 <body>
   <br><br>
-  <a href="{% url 'generate' %}" class="backlink" onclick="openPage('new')" id="defaultOpen"> <i
+  <a href="{% url 'schedule:generate' %}" class="backlink" onclick="openPage('new')" id="defaultOpen"> <i
       class="fas fa-arrow-left"></i>Back
   </a> <button class="submit" id="download"> Download </button>
   <div id="timetable">
-    <h1>FCSE | Class schedule</h1><br>
+    <h1>AI Scheduling | Class schedule</h1><br>
 
     {% block content %}
     {% load static %}

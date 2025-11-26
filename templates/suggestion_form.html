@@ -168,7 +168,7 @@ button {
     <header>
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #031833;">
-            <a class="navbar-brand" href="#"><b>FCSE | ScheduleView</b></a>
+            <a class="navbar-brand" href="#"><b>AI Scheduling | ScheduleView</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -176,13 +176,13 @@ button {
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pdf_list' %}">Schedule</a>
+                        <a class="nav-link" href="{% url 'schedule:pdf_list' %}">Schedule</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                        <a class="nav-link" href="{% url 'schedule:about' %}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'suggestion' %}">Suggestion</a>
+                        <a class="nav-link" href="{% url 'schedule:suggestion' %}">Suggestion</a>
                     </li>
                 </ul>
             </div>

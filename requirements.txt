@@ -1,0 +1,18 @@
+# Core Django
+Django==4.2.16
+python-decouple==3.8
+
+# PDF Generation
+xhtml2pdf==0.2.16
+reportlab==4.2.5
+pypdf==5.1.0
+
+# Image Processing
+Pillow==11.0.0
+
+# Utilities
+python-dateutil==2.9.0
+pytz==2024.2
+
+# Development
+django-debug-toolbar==4.4.6

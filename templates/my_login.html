@@ -51,13 +51,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register User</a>
+                    <a class="nav-link" href="{% url 'account:register' %}">Register User</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_list' %}">User List</a>
+                    <a class="nav-link" href="{% url 'account:user_list' %}">User List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="nav-link" href="{% url 'schedule:adminlogin' %}">Logout</a>
                 </li>
             </ul>
         </div>
