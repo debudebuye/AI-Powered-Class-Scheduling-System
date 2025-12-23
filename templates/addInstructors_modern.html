@@ -37,6 +37,18 @@
                             <i class="fas fa-id-badge"></i> Instructor ID
                         </label>
                         {{ form.uid }}
+                        {% if form.uid.help_text %}
+                            <small class="text-muted d-block mt-1">
+                                <i class="fas fa-info-circle"></i> {{ form.uid.help_text }}
+                            </small>
+                        {% endif %}
+                        {% if form.uid.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.uid.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="form-group-modern">
@@ -44,6 +56,13 @@
                             <i class="fas fa-user"></i> Name
                         </label>
                         {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.name.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="d-flex gap-3 mt-4">
@@ -69,8 +88,16 @@
                 </div>
                 <h3 class="feature-title">About Instructors</h3>
                 <p class="feature-description">
-                    Add teaching staff who will be assigned to courses. Each instructor needs a unique ID and name.
+                    Add teaching staff who will be assigned to courses. Each instructor gets a unique ID and name.
                 </p>
+                <hr>
+                <h5 class="fw-bold">Auto-ID Feature:</h5>
+                <ul class="text-muted">
+                    <li><strong>Leave ID blank</strong> - System auto-generates (I001, I002, etc.)</li>
+                    <li><strong>Custom ID</strong> - Enter your own unique ID</li>
+                    <li><strong>Editable</strong> - You can modify the ID anytime</li>
+                    <li><strong>Unique names</strong> - Each instructor must have a unique name</li>
+                </ul>
             </div>
         </div>
     </div>

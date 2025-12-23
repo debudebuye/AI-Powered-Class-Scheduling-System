@@ -3,7 +3,6 @@ from django.db import models
 import math
 import random as rnd
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, post_delete
 from datetime import timedelta, date
 
@@ -42,7 +41,7 @@ MUTATION_RATE = 0.1
 
 
 class Room(models.Model):
-    r_number = models.CharField(max_length=6, unique=True)
+    r_number = models.CharField(max_length=6, unique=True, blank=True)
     seating_capacity = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
@@ -64,7 +63,7 @@ class Room(models.Model):
 
 
 class Instructor(models.Model):
-    uid = models.CharField(max_length=6, unique=True)
+    uid = models.CharField(max_length=6, unique=True, blank=True)
     name = models.CharField(max_length=25)
 
     def save(self, *args, **kwargs):
@@ -123,7 +122,7 @@ class Course(models.Model):
     course_number = models.CharField(max_length=5, primary_key=True)
     course_name = models.CharField(max_length=40)
     max_numb_students = models.CharField(max_length=65)
-    instructors = models.ManyToManyField(Instructor)
+    instructors = models.ManyToManyField(Instructor, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.course_number:
@@ -151,11 +150,11 @@ class Department(models.Model):
 
 
 class Batch(models.Model):
-    batch_id = models.CharField(max_length=10, unique=True)
-    batch_name = models.CharField(max_length=255)
+    batch_id = models.CharField(max_length=10, unique=True, blank=True)
+    batch_name = models.CharField(max_length=255, default='')
     number_of_students = models.IntegerField(default=0)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course)  # Associate courses with batches
+    courses = models.ManyToManyField(Course, blank=True)  # Associate courses with batches
 
     def save(self, *args, **kwargs):
         if not self.batch_id:
@@ -226,8 +225,9 @@ class TimeTableModel(models.Model):
     instructor = models.CharField(max_length=100)
     clstime = models.CharField(max_length=100)
 class PDF(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, blank=True)
     file = models.FileField(upload_to='pdfs/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
-        return self.title
+    def __str__(self):
+        return self.title or self.file.name
