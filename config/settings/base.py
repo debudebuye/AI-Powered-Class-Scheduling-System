@@ -106,3 +106,10 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 
 # Security
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+
+# CSRF Settings
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_SAMESITE = 'Lax'

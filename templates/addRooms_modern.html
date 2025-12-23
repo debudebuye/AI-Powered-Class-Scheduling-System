@@ -1,0 +1,85 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Add Rooms - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Add Rooms</li>
+                </ol>
+            </nav>
+            <h1 class="display-6 fw-bold">
+                <i class="fas fa-door-open text-gradient"></i> Add Rooms
+            </h1>
+            <p class="text-muted">Add classrooms and their capacities to the system</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-8">
+            <div class="modern-form">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-id-card"></i> Room UID
+                        </label>
+                        {{ form.r_number }}
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-users"></i> Capacity
+                        </label>
+                        {{ form.seating_capacity }}
+                    </div>
+                    
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-modern btn-primary-modern">
+                            <i class="fas fa-plus"></i> Add Room
+                        </button>
+                        <a href="{% url 'schedule:editrooms' %}" class="btn btn-modern btn-outline-modern">
+                            <i class="fas fa-list"></i> View All Rooms
+                        </a>
+                        <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="col-lg-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="feature-title">About Rooms</h3>
+                <p class="feature-description">
+                    Add classrooms with their seating capacity. The AI will use this information to assign appropriate rooms based on class size.
+                </p>
+                <hr>
+                <h5 class="fw-bold">Tips:</h5>
+                <ul class="text-muted">
+                    <li>Use clear room identifiers (e.g., "Room-101", "Lab-A")</li>
+                    <li>Set accurate seating capacity</li>
+                    <li>Consider room types (lecture halls, labs, etc.)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

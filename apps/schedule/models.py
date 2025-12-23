@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 import math
 import random as rnd
@@ -41,16 +42,44 @@ MUTATION_RATE = 0.1
 
 
 class Room(models.Model):
-    r_number = models.CharField(max_length=6)
+    r_number = models.CharField(max_length=6, unique=True)
     seating_capacity = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.r_number:
+            # Auto-generate room number if not provided
+            last_room = Room.objects.filter(r_number__startswith='R').order_by('r_number').last()
+            if last_room:
+                try:
+                    last_num = int(last_room.r_number[1:])
+                    self.r_number = f'R{last_num + 1:03d}'
+                except ValueError:
+                    self.r_number = 'R001'
+            else:
+                self.r_number = 'R001'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.r_number
 
 
 class Instructor(models.Model):
-    uid = models.CharField(max_length=6)
+    uid = models.CharField(max_length=6, unique=True)
     name = models.CharField(max_length=25)
+
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            # Auto-generate instructor ID if not provided
+            last_instructor = Instructor.objects.filter(uid__startswith='I').order_by('uid').last()
+            if last_instructor:
+                try:
+                    last_num = int(last_instructor.uid[1:])
+                    self.uid = f'I{last_num + 1:03d}'
+                except ValueError:
+                    self.uid = 'I001'
+            else:
+                self.uid = 'I001'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.uid} {self.name}'
@@ -60,6 +89,20 @@ class MeetingTime(models.Model):
     pid = models.CharField(max_length=4, primary_key=True)
     time = models.CharField(max_length=50, choices=time_slots, default='2:00 - 4:00')
     day = models.CharField(max_length=15, choices=DAYS_OF_WEEK)
+
+    def save(self, *args, **kwargs):
+        if not self.pid:
+            # Auto-generate meeting time ID if not provided
+            last_mt = MeetingTime.objects.filter(pid__startswith='MT').order_by('pid').last()
+            if last_mt:
+                try:
+                    last_num = int(last_mt.pid[2:])
+                    self.pid = f'MT{last_num + 1:02d}'
+                except ValueError:
+                    self.pid = 'MT01'
+            else:
+                self.pid = 'MT01'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.pid} {self.day} {self.time}'
@@ -82,6 +125,20 @@ class Course(models.Model):
     max_numb_students = models.CharField(max_length=65)
     instructors = models.ManyToManyField(Instructor)
 
+    def save(self, *args, **kwargs):
+        if not self.course_number:
+            # Auto-generate course number if not provided
+            last_course = Course.objects.filter(course_number__startswith='C').order_by('course_number').last()
+            if last_course:
+                try:
+                    last_num = int(last_course.course_number[1:])
+                    self.course_number = f'C{last_num + 1:03d}'
+                except ValueError:
+                    self.course_number = 'C001'
+            else:
+                self.course_number = 'C001'
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.course_number} {self.course_name}'
 
@@ -94,16 +151,32 @@ class Department(models.Model):
 
 
 class Batch(models.Model):
+    batch_id = models.CharField(max_length=10, unique=True)
     batch_name = models.CharField(max_length=255)
+    number_of_students = models.IntegerField(default=0)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course)  # Associate courses with batches
+
+    def save(self, *args, **kwargs):
+        if not self.batch_id:
+            # Auto-generate batch ID if not provided
+            last_batch = Batch.objects.filter(batch_id__startswith='B').order_by('batch_id').last()
+            if last_batch:
+                try:
+                    last_num = int(last_batch.batch_id[1:])
+                    self.batch_id = f'B{last_num + 1:03d}'
+                except ValueError:
+                    self.batch_id = 'B001'
+            else:
+                self.batch_id = 'B001'
+        super().save(*args, **kwargs)
       
     @property
     def get_courses(self):
         return self.courses
 
     def __str__(self):
-        return self.batch_name
+        return f'{self.batch_id} - {self.batch_name}'
 
 
 class Section(models.Model):
@@ -114,6 +187,20 @@ class Section(models.Model):
     meeting_time = models.ForeignKey(MeetingTime, on_delete=models.CASCADE, blank=True, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, blank=True, null=True)
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.section_id:
+            # Auto-generate section ID if not provided
+            last_section = Section.objects.filter(section_id__startswith='S').order_by('section_id').last()
+            if last_section:
+                try:
+                    last_num = int(last_section.section_id[1:])
+                    self.section_id = f'S{last_num + 1:03d}'
+                except ValueError:
+                    self.section_id = 'S001'
+            else:
+                self.section_id = 'S001'
+        super().save(*args, **kwargs)
 
     def set_room(self, room):
         section = Section.objects.get(pk=self.section_id)

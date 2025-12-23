@@ -1,0 +1,78 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Add Instructors - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Add Instructors</li>
+                </ol>
+            </nav>
+            <h1 class="display-6 fw-bold">
+                <i class="fas fa-chalkboard-teacher text-gradient"></i> Add Instructors
+            </h1>
+            <p class="text-muted">Add teaching staff to the system</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-8">
+            <div class="modern-form">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-id-badge"></i> Instructor ID
+                        </label>
+                        {{ form.uid }}
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-user"></i> Name
+                        </label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-modern btn-primary-modern">
+                            <i class="fas fa-plus"></i> Add Instructor
+                        </button>
+                        <a href="{% url 'schedule:editinstructor' %}" class="btn btn-modern btn-outline-modern">
+                            <i class="fas fa-list"></i> View All Instructors
+                        </a>
+                        <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="col-lg-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="feature-title">About Instructors</h3>
+                <p class="feature-description">
+                    Add teaching staff who will be assigned to courses. Each instructor needs a unique ID and name.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

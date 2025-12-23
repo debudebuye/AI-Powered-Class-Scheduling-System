@@ -1,0 +1,100 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Sections List - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Sections</li>
+                </ol>
+            </nav>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 fw-bold">
+                        <i class="fas fa-users text-gradient"></i> Sections
+                    </h1>
+                    <p class="text-muted">Class sections and frequency</p>
+                </div>
+                <a href="{% url 'schedule:addSections' %}" class="btn btn-modern btn-primary-modern">
+                    <i class="fas fa-plus"></i> Add New Section
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sections Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="modern-table">
+                {% if sections %}
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card"></i> Section ID</th>
+                            <th><i class="fas fa-layer-group"></i> Batch</th>
+                            <th><i class="fas fa-calendar-week"></i> Classes/Week</th>
+                            <th><i class="fas fa-cogs"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for section in sections %}
+                        <tr>
+                            <td class="fw-bold">{{ section.section_id }}</td>
+                            <td>{{ section.batch.batch_id|default:"Not assigned" }}</td>
+                            <td>
+                                <span class="badge bg-info">{{ section.num_class_in_week }} times</span>
+                            </td>
+                            <td>
+                                <form method="post" action="{% url 'schedule:deletesection' section.pk %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                            onclick="return confirm('Are you sure you want to delete this section?')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="text-center py-5">
+                    <div class="feature-icon mx-auto mb-3" style="opacity: 0.5;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="text-muted">No Sections Found</h4>
+                    <p class="text-muted">Start by adding your first section.</p>
+                    <a href="{% url 'schedule:addSections' %}" class="btn btn-modern btn-primary-modern">
+                        <i class="fas fa-plus"></i> Add First Section
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex gap-3">
+                <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <a href="{% url 'schedule:addSections' %}" class="btn btn-modern btn-outline-modern">
+                    <i class="fas fa-plus"></i> Add Another Section
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -16,6 +16,7 @@ urlpatterns = [
     # Admin
     path('admin-dashboard/', views.admindash, name='admindash'),
     path('manage/', views.admin_login, name='adminlogin'),
+    path('logout/', views.admin_logout, name='logout'),
     
     # Teachers/Instructors
     path('teachers/add/', views.addInstructor, name='addInstructors'),

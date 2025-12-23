@@ -1,0 +1,107 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Upload PDF - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:lists' %}" class="text-decoration-none">PDF Management</a>
+                    </li>
+                    <li class="breadcrumb-item active">Upload PDF</li>
+                </ol>
+            </nav>
+            <h1 class="display-6 fw-bold">
+                <i class="fas fa-upload text-gradient"></i> Upload PDF
+            </h1>
+            <p class="text-muted">Upload timetable PDFs and documents</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-8">
+            <div class="modern-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-file-pdf"></i> PDF File
+                        </label>
+                        {{ form.file }}
+                        <small class="text-muted">Select a PDF file to upload (Max size: 10MB)</small>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-tag"></i> Title (Optional)
+                        </label>
+                        {{ form.title }}
+                        <small class="text-muted">Give your PDF a descriptive title</small>
+                    </div>
+                    
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-modern btn-primary-modern">
+                            <i class="fas fa-upload"></i> Upload PDF
+                        </button>
+                        <a href="{% url 'schedule:lists' %}" class="btn btn-modern btn-outline-modern">
+                            <i class="fas fa-list"></i> View All PDFs
+                        </a>
+                        <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="col-lg-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="feature-title">Upload Guidelines</h3>
+                <p class="feature-description">
+                    Upload generated timetables and related documents for easy access and sharing.
+                </p>
+                <hr>
+                <h5 class="fw-bold">Supported:</h5>
+                <ul class="text-muted">
+                    <li>PDF files only</li>
+                    <li>Maximum size: 10MB</li>
+                    <li>Timetables, schedules, reports</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* File input styling */
+.modern-form input[type="file"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px dashed var(--primary-color, #6366f1);
+    border-radius: var(--radius-md, 0.5rem);
+    background: rgba(99, 102, 241, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-form input[type="file"]:hover {
+    border-color: var(--primary-dark, #4f46e5);
+    background: rgba(99, 102, 241, 0.1);
+}
+</style>
+{% endblock %}

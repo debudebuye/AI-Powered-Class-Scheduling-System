@@ -8,14 +8,20 @@ class RoomForm(ModelForm):
         fields = ['r_number', 'seating_capacity']
         widgets = {
             'r_number': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin:15px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., R001) - Leave blank for auto ID'
             }),
-            'seating_capacity': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin:10px; margin-left:30px'
+            'seating_capacity': forms.NumberInput(attrs={
+                'class': 'form-control-modern',
+                'placeholder': 'Enter seating capacity',
+                'min': '1'
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['r_number'].required = False
+        self.fields['r_number'].help_text = "Leave blank to auto-generate (R001, R002, etc.)"
 
 
 class InstructorForm(forms.ModelForm):
@@ -24,25 +30,32 @@ class InstructorForm(forms.ModelForm):
         fields = ['uid', 'name']
         widgets = {
             'uid': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin:10px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., I001) - Leave blank for auto ID'
             }),
             'name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin:10px; margin-left:30px'
+                'class': 'form-control-modern',
+                'placeholder': 'Enter instructor name'
             }),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['uid'].required = False
+        self.fields['uid'].help_text = "Leave blank to auto-generate (I001, I002, etc.)"
+
     def clean_uid(self):
-     uid = self.cleaned_data.get('uid')
-     if Instructor.objects.filter(uid=uid).exists():
-        raise forms.ValidationError("The ID is already used.")
-     return uid
+        uid = self.cleaned_data.get('uid')
+        if uid and Instructor.objects.filter(uid=uid).exists():
+            if not self.instance.pk or self.instance.uid != uid:
+                raise forms.ValidationError("This ID is already in use.")
+        return uid
     
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if Instructor.objects.filter(name=name).exists():
-            raise forms.ValidationError("The name is already used.")
+            if not self.instance.pk or self.instance.name != name:
+                raise forms.ValidationError("This name is already in use.")
         return name
 
 class MeetingTimeForm(ModelForm):
@@ -51,25 +64,26 @@ class MeetingTimeForm(ModelForm):
         fields = ['pid', 'time', 'day']
         widgets = {
             'pid': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:28px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., MT01) - Leave blank for auto ID'
             }),
             'time': forms.Select(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:80px;',
-                'size': 1
+                'class': 'form-control-modern'
             }),
             'day': forms.Select(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:7px;',
-                'size': 1
+                'class': 'form-control-modern'
             }),
         }
         labels = {
-            "pid": "Meeting ID",
-            "time": "Time",
+            "pid": "Meeting Time ID",
+            "time": "Time Slot",
             "day": "Day of the Week"
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['pid'].required = False
+        self.fields['pid'].help_text = "Leave blank to auto-generate (MT01, MT02, etc.)"
 
 
 class CourseForm(ModelForm):
@@ -78,23 +92,28 @@ class CourseForm(ModelForm):
         fields = ['course_number', 'course_name', 'max_numb_students', 'instructors']
         widgets = {
             'course_number': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:35px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., C001) - Leave blank for auto ID'
             }),
             'course_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:26px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Enter course name'
             }),
-            'max_numb_students': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; height: 40px; display: inline-block; margin-left:10px;'
+            'max_numb_students': forms.NumberInput(attrs={
+                'class': 'form-control-modern',
+                'placeholder': 'Maximum number of students',
+                'min': '1'
             }),
             'instructors': forms.SelectMultiple(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%;  display: inline-block; margin-left:5px;',
-                'size': 3
+                'class': 'form-control-modern',
+                'size': '4'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['course_number'].required = False
+        self.fields['course_number'].help_text = "Leave blank to auto-generate (C001, C002, etc.)"
 
 
 class DepartmentForm(ModelForm):
@@ -112,22 +131,34 @@ class DepartmentForm(ModelForm):
 class BatchForm(ModelForm):
     class Meta:
         model = Batch
-        fields = ['batch_name', 'department', 'courses']
+        fields = ['batch_id', 'batch_name', 'number_of_students', 'department', 'courses']
         widgets = {
+            'batch_id': forms.TextInput(attrs={
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., B001) - Leave blank for auto ID'
+            }),
             'batch_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Enter batch name'
+            }),
+            'number_of_students': forms.NumberInput(attrs={
+                'class': 'form-control-modern',
+                'placeholder': 'Number of students in batch',
+                'min': '1'
             }),
             'department': forms.Select(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;'
+                'class': 'form-control-modern'
             }),
             'courses': forms.SelectMultiple(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;',
-                'size': 4
+                'class': 'form-control-modern',
+                'size': '4'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['batch_id'].required = False
+        self.fields['batch_id'].help_text = "Leave blank to auto-generate (B001, B002, etc.)"
 
 
 class SectionForm(ModelForm):
@@ -136,18 +167,24 @@ class SectionForm(ModelForm):
         fields = ['section_id', 'batch', 'num_class_in_week']
         widgets = {
             'section_id': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;'
+                'class': 'form-control-modern',
+                'placeholder': 'Auto-generated (e.g., S001) - Leave blank for auto ID'
             }),
             'batch': forms.Select(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;'
+                'class': 'form-control-modern'
             }),
-            'num_class_in_week': forms.TextInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 60%; display: inline-block; margin-left:10px;'
+            'num_class_in_week': forms.NumberInput(attrs={
+                'class': 'form-control-modern',
+                'placeholder': 'Number of classes per week',
+                'min': '1',
+                'max': '7'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['section_id'].required = False
+        self.fields['section_id'].help_text = "Leave blank to auto-generate (S001, S002, etc.)"
         
         
 class SuggestionForm(forms.Form):

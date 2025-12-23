@@ -1,0 +1,136 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Add Sections - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Add Sections</li>
+                </ol>
+            </nav>
+            <h1 class="display-6 fw-bold">
+                <i class="fas fa-users text-gradient"></i> Add Sections
+            </h1>
+            <p class="text-muted">Define class sections and their weekly frequency</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-8">
+            <div class="modern-form">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-id-card"></i> Section ID
+                        </label>
+                        {{ form.section_id }}
+                        {% if form.section_id.help_text %}
+                            <small class="text-muted">{{ form.section_id.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-layer-group"></i> Corresponding Batch
+                        </label>
+                        {{ form.batch }}
+                        {% if form.batch.help_text %}
+                            <small class="text-muted">{{ form.batch.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-calendar-week"></i> Classes Per Week
+                        </label>
+                        {{ form.num_class_in_week }}
+                        {% if form.num_class_in_week.help_text %}
+                            <small class="text-muted">{{ form.num_class_in_week.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-modern btn-primary-modern">
+                            <i class="fas fa-plus"></i> Add Section
+                        </button>
+                        <a href="{% url 'schedule:editsection' %}" class="btn btn-modern btn-outline-modern">
+                            <i class="fas fa-list"></i> View All Sections
+                        </a>
+                        <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="col-lg-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="feature-title">About Sections</h3>
+                <p class="feature-description">
+                    Sections define how many times a week a particular course should be scheduled for a batch. 
+                    This helps the AI algorithm optimize the timetable generation.
+                </p>
+                <hr>
+                <h5 class="fw-bold">Tips:</h5>
+                <ul class="text-muted">
+                    <li>Use unique section IDs</li>
+                    <li>Select the appropriate batch</li>
+                    <li>Set realistic class frequency</li>
+                    <li>Consider room availability</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Form styling to match modern theme */
+.modern-form select,
+.modern-form input[type="text"],
+.modern-form input[type="number"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--light, #f3f4f6);
+    border-radius: var(--radius-md, 0.5rem);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--white, #ffffff);
+}
+
+.modern-form select:focus,
+.modern-form input[type="text"]:focus,
+.modern-form input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: var(--gray, #6b7280);
+}
+</style>
+{% endblock %}

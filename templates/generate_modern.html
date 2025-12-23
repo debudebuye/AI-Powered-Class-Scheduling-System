@@ -1,0 +1,81 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block title %}Generate Timetable - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:admindash' %}" class="text-decoration-none">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Generate Timetable</li>
+                </ol>
+            </nav>
+            <h1 class="display-6 fw-bold">
+                <i class="fas fa-robot text-gradient"></i> AI Timetable Generator
+            </h1>
+            <p class="text-muted">Generate optimal schedules using evolutionary algorithms</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Generation Section -->
+        <div class="col-lg-8">
+            <div class="feature-card">
+                <div class="text-center mb-4">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">Ready to Generate</h3>
+                    <p class="feature-description">
+                        The AI will analyze all your data and create an optimized timetable using genetic algorithms.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <a href="{% url 'schedule:timetable' %}" class="btn btn-modern btn-primary-modern btn-lg">
+                        <i class="fas fa-magic"></i> Generate Timetable Now
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <h5 class="fw-bold">Generation Process:</h5>
+                    <ol class="text-muted">
+                        <li>AI analyzes all constraints and resources</li>
+                        <li>Genetic algorithm creates multiple schedule variations</li>
+                        <li>Evolution process optimizes for best solution</li>
+                        <li>Final timetable is generated and displayed</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Info Section -->
+        <div class="col-lg-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="feature-title">Before Generating</h3>
+                <p class="feature-description">Make sure you have added:</p>
+                <ul class="text-muted">
+                    <li>Instructors</li>
+                    <li>Rooms</li>
+                    <li>Courses</li>
+                    <li>Meeting Times</li>
+                    <li>Departments</li>
+                    <li>Batches</li>
+                    <li>Sections</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

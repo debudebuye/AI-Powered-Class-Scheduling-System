@@ -65,20 +65,29 @@ def admindash(request):
 
 def admin_login(request):
     """Admin login handler."""
+    from django.contrib.auth import authenticate, login
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-        admin_username = config('ADMIN_USERNAME', default='admin')
-        admin_password = config('ADMIN_PASSWORD', default='password')
-        
-        if username == admin_username and password == admin_password:
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
             messages.success(request, "Login successful!")
-            return redirect('schedule:index1')
+            return redirect('schedule:admindash')
         else:
             messages.error(request, "Invalid username or password.")
     
-    return render(request, 'adminlogin.html')
+    return render(request, 'login_modern.html')
+
+
+def admin_logout(request):
+    """Admin logout handler."""
+    from django.contrib.auth import logout
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('schedule:index')
 
 
 # ============================================================================
@@ -92,17 +101,18 @@ def addInstructor(request):
         form = InstructorForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Instructor added successfully!")
             return redirect('schedule:addInstructors')
     else:
         form = InstructorForm()
-    return render(request, 'addInstructors.html', {'form': form})
+    return render(request, 'addInstructors_modern.html', {'form': form})
 
 
 @login_required
 def inst_list_view(request):
     """List all instructors."""
     instructors = Instructor.objects.all()
-    return render(request, 'inslist.html', {'instructors': instructors})
+    return render(request, 'inslist_modern.html', {'instructors': instructors})
 
 
 @login_required
@@ -124,15 +134,16 @@ def addRooms(request):
     form = RoomForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Room added successfully!")
         return redirect('schedule:addRooms')
-    return render(request, 'addRooms.html', {'form': form})
+    return render(request, 'addRooms_modern.html', {'form': form})
 
 
 @login_required
 def room_list(request):
     """List all rooms."""
     rooms = Room.objects.all()
-    return render(request, 'roomslist.html', {'rooms': rooms})
+    return render(request, 'roomslist_modern.html', {'rooms': rooms})
 
 
 @login_required
@@ -154,15 +165,16 @@ def addTimings(request):
     form = MeetingTimeForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Meeting time added successfully!")
         return redirect('schedule:addTimings')
-    return render(request, 'addTimings.html', {'form': form})
+    return render(request, 'addTimings_modern.html', {'form': form})
 
 
 @login_required
 def meeting_list_view(request):
     """List all meeting times."""
     meeting_times = MeetingTime.objects.all()
-    return render(request, 'mtlist.html', {'meeting_times': meeting_times})
+    return render(request, 'mtlist_modern.html', {'meeting_times': meeting_times})
 
 
 @login_required
@@ -184,15 +196,16 @@ def addCourses(request):
     form = CourseForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Course added successfully!")
         return redirect('schedule:addCourses')
-    return render(request, 'addCourses.html', {'form': form})
+    return render(request, 'addCourses_modern.html', {'form': form})
 
 
 @login_required
 def course_list_view(request):
     """List all courses."""
     courses = Course.objects.all()
-    return render(request, 'courseslist.html', {'courses': courses})
+    return render(request, 'courseslist_modern.html', {'courses': courses})
 
 
 @login_required
@@ -214,15 +227,16 @@ def addDepts(request):
     form = DepartmentForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Department added successfully!")
         return redirect('schedule:addDepts')
-    return render(request, 'addDepts.html', {'form': form})
+    return render(request, 'addDepts_modern.html', {'form': form})
 
 
 @login_required
 def department_list(request):
     """List all departments."""
     departments = Department.objects.all()
-    return render(request, 'deptlist.html', {'departments': departments})
+    return render(request, 'deptlist_modern.html', {'departments': departments})
 
 
 @login_required
@@ -244,15 +258,16 @@ def addBatches(request):
     form = BatchForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Batch added successfully!")
         return redirect('schedule:addBatches')
-    return render(request, 'addBatches.html', {'form': form})
+    return render(request, 'addBatches_modern.html', {'form': form})
 
 
 @login_required
 def batch_list(request):
     """List all batches."""
     batches = Batch.objects.all()
-    return render(request, 'batchlist.html', {'batches': batches})
+    return render(request, 'batchlist_modern.html', {'batches': batches})
 
 
 @login_required
@@ -274,15 +289,16 @@ def addSections(request):
     form = SectionForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Section added successfully!")
         return redirect('schedule:addSections')
-    return render(request, 'addSections.html', {'form': form})
+    return render(request, 'addSections_modern.html', {'form': form})
 
 
 @login_required
 def section_list(request):
     """List all sections."""
     sections = Section.objects.all()
-    return render(request, 'seclist.html', {'sections': sections})
+    return render(request, 'seclist_modern.html', {'sections': sections})
 
 
 @login_required
@@ -301,7 +317,7 @@ def delete_section(request, pk):
 @login_required
 def generate(request):
     """Display timetable generation page."""
-    return render(request, 'generate.html')
+    return render(request, 'generate_modern.html')
 
 
 @login_required
@@ -312,7 +328,7 @@ def timetable(request):
         sections = Section.objects.all()
         times = MeetingTime.objects.all()
         
-        return render(request, 'gentimetable.html', {
+        return render(request, 'gentimetable_modern.html', {
             'schedule': schedule,
             'sections': sections,
             'times': times
@@ -342,7 +358,7 @@ def pdf_list(request):
 def lists(request):
     """List all PDFs for admin."""
     pdfs = PDF.objects.all()
-    return render(request, 'list.html', {'pdfs': pdfs})
+    return render(request, 'list_modern.html', {'pdfs': pdfs})
 
 
 @login_required
@@ -352,16 +368,17 @@ def upload_pdf(request):
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "PDF uploaded successfully!")
             return redirect('schedule:lists')
     else:
         form = PDFUploadForm()
-    return render(request, 'upload_pdf.html', {'form': form})
+    return render(request, 'upload_pdf_modern.html', {'form': form})
 
 
 def view_pdf(request, pk):
     """View a PDF."""
     pdf = get_object_or_404(PDF, pk=pk)
-    return render(request, 'view_pdf.html', {'pdf': pdf})
+    return render(request, 'view_pdf_modern.html', {'pdf': pdf})
 
 
 @require_POST
