@@ -179,9 +179,6 @@ See [docs/README.md](docs/README.md) for detailed deployment instructions.
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-[Add your license here]
 
 ## 👥 About
 
