@@ -65,4 +65,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t ai-scheduling:${{ github.sha }} .
-      - run: docker run --rm ai-scheduling:${{ github.sha }} python manage.py check --deploy --fail-level WARNING
+      - run: >
+          docker run --rm
+          -e DJANGO_ENV=production
+          -e SECRET_KEY=ci-test-secret-key-must-be-at-least-fifty-characters-long-ok
+          -e ALLOWED_HOSTS=localhost,127.0.0.1
+          ai-scheduling:${{ github.sha }}
+          python manage.py check --deploy --fail-level WARNING
