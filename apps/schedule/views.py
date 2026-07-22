@@ -14,11 +14,28 @@ from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from .forms import (BatchForm, CourseForm, DepartmentForm, InstructorForm,
-                    MeetingTimeForm, PDFUploadForm, RoomForm, SectionForm,
-                    SuggestionForm)
-from .models import (PDF, Batch, Course, Department, Instructor, MeetingTime,
-                     Room, Section, TimeTableModel)
+from .forms import (
+    BatchForm,
+    CourseForm,
+    DepartmentForm,
+    InstructorForm,
+    MeetingTimeForm,
+    PDFUploadForm,
+    RoomForm,
+    SectionForm,
+    SuggestionForm,
+)
+from .models import (
+    PDF,
+    Batch,
+    Course,
+    Department,
+    Instructor,
+    MeetingTime,
+    Room,
+    Section,
+    TimeTableModel,
+)
 from .services import TimetableGeneratorService
 
 logger = logging.getLogger(__name__)

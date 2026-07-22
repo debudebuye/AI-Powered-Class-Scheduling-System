@@ -7,8 +7,7 @@ from typing import Dict, List
 
 from apps.schedule.models import MeetingTime, Section, TimeTableModel
 
-from .genetic_algorithm import (POPULATION_SIZE, Data, GeneticAlgorithm,
-                                Population)
+from .genetic_algorithm import POPULATION_SIZE, Data, GeneticAlgorithm, Population
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,16 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import (PDF, Batch, Course, Department, Instructor, MeetingTime,
-                     Room, Section)
+from .models import (
+    PDF,
+    Batch,
+    Course,
+    Department,
+    Instructor,
+    MeetingTime,
+    Room,
+    Section,
+)
 
 
 class RoomForm(ModelForm):
