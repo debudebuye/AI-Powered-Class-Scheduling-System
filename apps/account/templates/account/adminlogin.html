@@ -1,19 +1,73 @@
-{% comment %} <!-- login.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html> {% endcomment %}
+{% extends 'base_modern.html' %}
+
+{% block title %}Sign In - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="padding: 5rem 0 4rem;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-5">
+                <div class="modern-form" style="border-radius: var(--radius-2xl); box-shadow: var(--shadow-2xl); border: none;">
+                    <div class="text-center mb-4">
+                        <div class="feature-icon mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="fw-bold" style="letter-spacing: -0.02em;">Welcome Back</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.925rem;">Sign in to access the scheduling dashboard</p>
+                    </div>
+
+                    {% if messages %}
+                    <div class="mb-3">
+                        {% for message in messages %}
+                        <div class="alert-modern alert-{{ message.tags }}">
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">
+                                <i class="fas fa-user" style="color: var(--primary);"></i> Username
+                            </label>
+                            <input type="text" name="username" class="form-control-modern"
+                                   placeholder="Enter your username" required autofocus>
+                        </div>
+
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">
+                                <i class="fas fa-lock" style="color: var(--primary);"></i> Password
+                            </label>
+                            <input type="password" name="password" class="form-control-modern"
+                                   placeholder="Enter your password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-modern w-100 mt-2" style="background: var(--gradient-ai); color: white; padding: 0.85rem; font-size: 1rem; border-radius: var(--radius-lg);">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                            Don't have an account?
+                            <a href="{% url 'account:register' %}" class="text-decoration-none fw-bold" style="color: var(--primary);">
+                                Sign Up
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{% url 'schedule:index' %}" class="text-decoration-none" style="color: var(--gray); font-size: 0.85rem;">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

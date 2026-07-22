@@ -1,16 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Timetable</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>Edit Timetable</h1>
-        <p>This feature is under development.</p>
-        <a href="{% url 'schedule:admindash' %}" class="btn btn-primary">Back to Dashboard</a>
+{% extends 'base_modern.html' %}
+
+{% block title %}Edit Timetable - AI Class Scheduling System{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="padding: 5rem 0 4rem;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-5">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2rem; background: var(--gradient-warm);">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h2 class="fw-bold mb-3" style="letter-spacing: -0.02em;">Coming Soon</h2>
+                    <p class="text-muted mb-4" style="font-size: 1.05rem;">
+                        The timetable editing feature is currently under development. Check back soon for updates!
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'schedule:admindash' %}" class="btn btn-modern btn-primary-modern" style="background: var(--gradient-ai); color: white;">
+                            <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                        </a>
+                        <a href="{% url 'schedule:generate' %}" class="btn btn-modern btn-outline-modern" style="border: 2px solid var(--primary); color: var(--primary);">
+                            <i class="fas fa-magic"></i> Generate New Timetable
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</section>
+{% endblock %}

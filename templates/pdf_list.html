@@ -1,196 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base_modern.html' %}
+{% load static %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+{% block title %}Schedule Viewer - AI Class Scheduling System{% endblock %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
-
-    <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: #031833;
-        }
-
-        .navbar-brand {
-            font-size: 20px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            font-weight: bold;
-        }
-
-        .nav-link {
-            font-size: 18px;
-            color: white !important;
-        }
-
-        .nav-link:hover {
-            color: #007BFF !important;
-        }
-
-        .content {
-            padding: 20px;
-            margin-top: 80px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-            font-size: 18px;
-        }
-
-        a:hover {
-            color: black;
-        }
-
-        .download-btn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .download-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .pdf-list-container {
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-            margin-top: 100px;
-            margin-left: 50px;
-            margin-right: 50px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-        }
-
-        .pdf-list {
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            color: black;
-            margin: 60px;
-            padding-bottom: 10px;
-            padding-top: 10px;
-        }
-
-        .pdf-list li {
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .pdf-list li:last-child {
-            border-bottom: none;
-        }
-
-        .footer {
-            background-color: #031833;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 16px;
-        }
-
-        .footer p {
-            margin: 0;
-        }
-
-        .footer a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .footer {
-                font-size: 14px;
-                padding: 15px 0;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">AI Scheduling | ScheduleView</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'schedule:pdf_list' %}">Schedule</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'schedule:about' %}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'schedule:suggestion' %}">Suggestion</a>
-                </li>
-            </ul>
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'schedule:index' %}" class="text-decoration-none">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Schedule Viewer</li>
+                </ol>
+            </nav>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 fw-bold">
+                        <i class="fas fa-calendar-alt text-gradient"></i> Schedule Viewer
+                    </h1>
+                    <p class="text-muted">Browse and download available timetables</p>
+                </div>
+                <a href="{% url 'schedule:suggestion' %}" class="btn btn-modern btn-outline-modern" style="border: 2px solid var(--primary); color: var(--primary);">
+                    <i class="fas fa-lightbulb"></i> Submit Suggestion
+                </a>
+            </div>
         </div>
-    </nav>
-
-    <div class="pdf-list-container">
-        <h1>PDF List</h1>
-        <ul class="pdf-list">
-            {% for pdf in pdfs %}
-                <li>
-                    <a href="{% url 'schedule:view_pdf' pdf.pk %}" style="text-decoration:none;text-transform:uppercase;display:inline">{{ pdf.title }}</a>
-                    <a href="{% url 'schedule:download_pdf' pdf.pk %}"  style="width: 150px;text-decoration:none;padding-left:8px;color:white; background:blue;border-radius:10px">view & Download</a>
-                </li>
-            {% endfor %}
-        </ul>
     </div>
 
-    <footer class="footer bottom-fixed">
-        <p>&copy; 2024 AI Scheduling Project of CS.</p>
-    </footer>
-</body>
+    <!-- PDF List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="modern-table">
+                {% if pdfs %}
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-file-pdf"></i> Schedule</th>
+                            <th><i class="fas fa-calendar"></i> Upload Date</th>
+                            <th><i class="fas fa-cogs"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pdf in pdfs %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="feature-icon me-2" style="width: 36px; height: 36px; font-size: 0.8rem; background: var(--gradient-warm);">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </div>
+                                    <a href="{% url 'schedule:view_pdf' pdf.pk %}" class="text-decoration-none fw-bold" style="color: var(--dark);">
+                                        {{ pdf.title|default:"Untitled Schedule" }}
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-muted">{{ pdf.uploaded_at|date:"M d, Y" }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'schedule:view_pdf' pdf.pk %}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    <a href="{% url 'schedule:download_pdf' pdf.pk %}" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="text-center py-5">
+                    <div class="feature-icon mx-auto mb-3" style="opacity: 0.5;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h4 class="text-muted">No Schedules Available</h4>
+                    <p class="text-muted">No timetables have been published yet. Check back later!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-</html>
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex gap-3">
+                <a href="{% url 'schedule:index' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="{% url 'schedule:suggestion' %}" class="btn btn-modern btn-outline-modern" style="border: 2px solid var(--primary); color: var(--primary);">
+                    <i class="fas fa-lightbulb"></i> Suggest Improvement
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

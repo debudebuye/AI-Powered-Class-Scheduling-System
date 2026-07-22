@@ -1,15 +1,81 @@
-{% extends "base1.html" %}
+{% extends 'base_modern.html' %}
 
-{% block title %}Edit your account{% endblock %}
+{% block title %}Edit Profile - AI Class Scheduling System{% endblock %}
 
 {% block content %}
-  <h1>Edit your account</h1>
-  <p>You can edit your account using the following form:</p>
-  <form method="post" enctype="multipart/form-data">
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Save changes"></p>
-  </form>
+<section class="hero-section" style="padding: 5rem 0 4rem;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6">
+                <div class="modern-form" style="border-radius: var(--radius-2xl); box-shadow: var(--shadow-2xl); border: none;">
+                    <div class="text-center mb-4">
+                        <div class="feature-icon mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h3 class="fw-bold" style="letter-spacing: -0.02em;">Edit Profile</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.925rem;">Update your account information</p>
+                    </div>
+
+                    {% if messages %}
+                    <div class="mb-3">
+                        {% for message in messages %}
+                        <div class="alert-modern alert-{{ message.tags }}">
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% for field in user_form %}
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">
+                                <i class="fas fa-{% if 'username' in field.name %}user{% elif 'email' in field.name %}envelope{% elif 'first_name' in field.name %}user-tag{% elif 'last_name' in field.name %}user-tag{% else %}id-card{% endif %}" style="color: var(--primary);"></i> {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in field.errors %}
+                                <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        {% if profile_form %}
+                        {% for field in profile_form %}
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">
+                                <i class="fas fa-camera" style="color: var(--primary);"></i> {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in field.errors %}
+                                <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        <div class="d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-modern" style="background: var(--gradient-ai); color: white; padding: 0.85rem 2rem; border-radius: var(--radius-lg);">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                            <a href="{% url 'schedule:admindash' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
-© 2020 GitHub, Inc.

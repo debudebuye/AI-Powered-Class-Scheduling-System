@@ -69,7 +69,7 @@ def help(request):
 
 def terms(request):
     """Terms and conditions page."""
-    return render(request, "terms_modern.html")
+    return render(request, "terms.html")
 
 
 def index1(request):
