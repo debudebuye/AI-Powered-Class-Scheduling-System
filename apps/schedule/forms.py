@@ -1,6 +1,9 @@
 from django.forms import ModelForm
-from .models import *
 from django import forms
+from .models import (
+    Room, Instructor, MeetingTime, Course, Department,
+    Batch, Section, PDF
+)
 
 class RoomForm(ModelForm):
     class Meta:
@@ -192,12 +195,27 @@ class SuggestionForm(forms.Form):
     email = forms.EmailField()
     suggestion = forms.CharField(widget=forms.Textarea)
     attachment = forms.FileField(required=False)
-    
-    
-from django import forms
-from .models import PDF
+
 
 class PDFUploadForm(forms.ModelForm):
+    ALLOWED_EXTENSIONS = ['.pdf']
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
     class Meta:
         model = PDF
         fields = ['title', 'file']
+
+    def clean_file(self):
+        file = self.cleaned_data.get('file')
+        if file:
+            import os
+            ext = os.path.splitext(file.name)[1].lower()
+            if ext not in self.ALLOWED_EXTENSIONS:
+                raise forms.ValidationError(
+                    f"Only PDF files are allowed. Got: {ext}"
+                )
+            if file.size > self.MAX_FILE_SIZE:
+                raise forms.ValidationError(
+                    f"File size must be under {self.MAX_FILE_SIZE // (1024 * 1024)}MB."
+                )
+        return file

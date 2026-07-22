@@ -1,9 +1,12 @@
 """
 Service for generating timetables using genetic algorithm.
 """
+import logging
 from typing import List, Dict
 from apps.schedule.models import TimeTableModel, Section, MeetingTime
 from .genetic_algorithm import Data, Population, GeneticAlgorithm, POPULATION_SIZE
+
+logger = logging.getLogger(__name__)
 
 
 class TimetableGeneratorService:
@@ -31,13 +34,13 @@ class TimetableGeneratorService:
         # Evolve until perfect solution found
         while population.get_schedules()[0].get_fitness() != 1.0:
             generation_num += 1
-            print(f'\n> Generation #{generation_num}')
+            logger.info("Generation #%d", generation_num)
             population = genetic_algorithm.evolve(population)
             population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
             
             # Safety check to prevent infinite loop
             if generation_num > 1000:
-                print("Warning: Max generations reached. Using best solution found.")
+                logger.warning("Max generations reached. Using best solution found.")
                 break
         
         # Get best schedule

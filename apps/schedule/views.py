@@ -1,11 +1,16 @@
 """
 Views for schedule app - timetable generation and resource management.
 """
+import logging
+import os
+
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.conf import settings
 from decouple import config
 
 from .forms import (
@@ -17,6 +22,12 @@ from .models import (
     Batch, Section, TimeTableModel, PDF
 )
 from .services import TimetableGeneratorService
+
+logger = logging.getLogger(__name__)
+
+
+def _is_staff(user):
+    return user.is_active and user.is_staff
 
 
 # ============================================================================
@@ -64,27 +75,35 @@ def admindash(request):
 
 
 def admin_login(request):
-    """Admin login handler."""
-    from django.contrib.auth import authenticate, login
-    
+    """Admin login handler using Django's built-in authentication."""
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+
+        if not username or not password:
+            messages.error(request, "Please enter both username and password.")
+            return render(request, 'login_modern.html')
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            messages.success(request, "Login successful!")
-            return redirect('schedule:admindash')
+            if user.is_active:
+                login(request, user)
+                logger.info("User '%s' logged in successfully.", username)
+                messages.success(request, "Login successful!")
+                return redirect('schedule:admindash')
+            else:
+                logger.warning("Disabled user '%s' attempted login.", username)
+                messages.error(request, "This account has been disabled.")
         else:
+            logger.warning("Failed login attempt for username '%s'.", username)
             messages.error(request, "Invalid username or password.")
-    
+
     return render(request, 'login_modern.html')
 
 
+@require_POST
 def admin_logout(request):
-    """Admin logout handler."""
-    from django.contrib.auth import logout
+    """Admin logout handler. Requires POST."""
     logout(request)
     messages.success(request, "You have been logged out successfully.")
     return redirect('schedule:index')
@@ -115,13 +134,15 @@ def inst_list_view(request):
     return render(request, 'inslist_modern.html', {'instructors': instructors})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_instructor(request, pk):
-    """Delete an instructor."""
+    """Delete an instructor. Staff only."""
     inst = get_object_or_404(Instructor, pk=pk)
-    if request.method == 'POST':
-        inst.delete()
-        return redirect('schedule:editinstructor')
+    inst.delete()
+    messages.success(request, f"Instructor '{inst.name}' deleted.")
+    return redirect('schedule:editinstructor')
 
 
 # ============================================================================
@@ -146,13 +167,15 @@ def room_list(request):
     return render(request, 'roomslist_modern.html', {'rooms': rooms})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_room(request, pk):
-    """Delete a room."""
+    """Delete a room. Staff only."""
     rm = get_object_or_404(Room, pk=pk)
-    if request.method == 'POST':
-        rm.delete()
-        return redirect('schedule:editrooms')
+    rm.delete()
+    messages.success(request, f"Room '{rm.r_number}' deleted.")
+    return redirect('schedule:editrooms')
 
 
 # ============================================================================
@@ -177,13 +200,15 @@ def meeting_list_view(request):
     return render(request, 'mtlist_modern.html', {'meeting_times': meeting_times})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_meeting_time(request, pk):
-    """Delete a meeting time."""
+    """Delete a meeting time. Staff only."""
     mt = get_object_or_404(MeetingTime, pk=pk)
-    if request.method == 'POST':
-        mt.delete()
-        return redirect('schedule:editmeetingtime')
+    mt.delete()
+    messages.success(request, f"Meeting time '{mt}' deleted.")
+    return redirect('schedule:editmeetingtime')
 
 
 # ============================================================================
@@ -208,13 +233,15 @@ def course_list_view(request):
     return render(request, 'courseslist_modern.html', {'courses': courses})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_course(request, pk):
-    """Delete a course."""
+    """Delete a course. Staff only."""
     crs = get_object_or_404(Course, pk=pk)
-    if request.method == 'POST':
-        crs.delete()
-        return redirect('schedule:editcourse')
+    crs.delete()
+    messages.success(request, f"Course '{crs.course_name}' deleted.")
+    return redirect('schedule:editcourse')
 
 
 # ============================================================================
@@ -239,13 +266,15 @@ def department_list(request):
     return render(request, 'deptlist_modern.html', {'departments': departments})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_department(request, pk):
-    """Delete a department."""
+    """Delete a department. Staff only."""
     dept = get_object_or_404(Department, pk=pk)
-    if request.method == 'POST':
-        dept.delete()
-        return redirect('schedule:editdepartment')
+    dept.delete()
+    messages.success(request, f"Department '{dept.dept_name}' deleted.")
+    return redirect('schedule:editdepartment')
 
 
 # ============================================================================
@@ -270,13 +299,15 @@ def batch_list(request):
     return render(request, 'batchlist_modern.html', {'batches': batches})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_batch(request, pk):
-    """Delete a batch."""
+    """Delete a batch. Staff only."""
     batch = get_object_or_404(Batch, pk=pk)
-    if request.method == 'POST':
-        batch.delete()
-        return redirect('schedule:editbatch')
+    batch.delete()
+    messages.success(request, f"Batch '{batch.batch_name}' deleted.")
+    return redirect('schedule:editbatch')
 
 
 # ============================================================================
@@ -301,13 +332,15 @@ def section_list(request):
     return render(request, 'seclist_modern.html', {'sections': sections})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_section(request, pk):
-    """Delete a section."""
+    """Delete a section. Staff only."""
     sec = get_object_or_404(Section, pk=pk)
-    if request.method == 'POST':
-        sec.delete()
-        return redirect('schedule:editsection')
+    sec.delete()
+    messages.success(request, f"Section '{sec.section_id}' deleted.")
+    return redirect('schedule:editsection')
 
 
 # ============================================================================
@@ -320,21 +353,24 @@ def generate(request):
     return render(request, 'generate_modern.html')
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def timetable(request):
-    """Generate timetable using genetic algorithm."""
+    """Generate timetable using genetic algorithm. Staff only."""
     try:
         schedule = TimetableGeneratorService.generate()
         sections = Section.objects.all()
         times = MeetingTime.objects.all()
-        
+
         return render(request, 'gentimetable_modern.html', {
             'schedule': schedule,
             'sections': sections,
             'times': times
         })
-    except Exception as e:
-        messages.error(request, f"Error generating timetable: {str(e)}")
+    except Exception:
+        logger.exception("Error generating timetable")
+        messages.error(request, "An error occurred while generating the timetable. Please try again.")
         return redirect('schedule:generate')
 
 
@@ -390,10 +426,15 @@ def delete_pdf(request, pk):
     return redirect('schedule:lists')
 
 
+@login_required
 def download_pdf(request, pk):
     """Download a PDF file."""
     pdf = get_object_or_404(PDF, pk=pk)
-    response = FileResponse(open(pdf.file.path, 'rb'), as_attachment=True)
+    file_path = pdf.file.path
+    if not os.path.exists(file_path):
+        messages.error(request, "PDF file not found on server.")
+        return redirect('schedule:lists')
+    response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
     return response
 
 
@@ -413,7 +454,9 @@ def suggestion_view(request):
 
             subject = f'Suggestion from {name}'
             body = f"Name: {name}\nEmail: {email}\nSuggestion:\n{suggestion}"
-            mailto_link = f"mailto:debadeba015@gmail.com?subject={subject}&body={body}"
+
+            contact_email = config('CONTACT_EMAIL', default='admin@example.com')
+            mailto_link = f"mailto:{contact_email}?subject={subject}&body={body}"
 
             if attachment:
                 mailto_link += f"&attachment={attachment.name}"
@@ -421,10 +464,36 @@ def suggestion_view(request):
             return render(request, 'suggestion_redirect.html', {'mailto_link': mailto_link})
     else:
         form = SuggestionForm()
-    
+
     return render(request, 'suggestion_form.html', {'form': form})
 
 
 def suggestion_thanks_view(request):
     """Thank you page for suggestions."""
     return render(request, 'suggestion_thanks.html')
+
+
+# ============================================================================
+# Health Check
+# ============================================================================
+
+def health_check(request):
+    """Health check endpoint for load balancers and monitoring."""
+    import json
+    from django.db import connection
+
+    status = {'status': 'ok'}
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        status['database'] = 'ok'
+    except Exception:
+        status['database'] = 'error'
+        status['status'] = 'degraded'
+
+    http_status = 200 if status['status'] == 'ok' else 503
+    return HttpResponse(
+        json.dumps(status),
+        content_type='application/json',
+        status=http_status,
+    )

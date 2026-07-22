@@ -72,7 +72,7 @@
     <ul class="messages">
       {% for message in messages %}
         <li class="{{ message.tags }}">
-          {{ message|safe }}
+          {{ message }}
             <a href="#" class="close">x</a>
         </li>
       {% endfor %}

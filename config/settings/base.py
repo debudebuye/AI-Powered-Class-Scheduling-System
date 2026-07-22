@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Security
 SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key-change-in-production')
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver', '*']  # Allow all hosts for development
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -34,6 +34,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.SecurityHeadersMiddleware',
+    'config.middleware.LoginRateLimitMiddleware',
+    'config.middleware.RegistrationRateLimitMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -109,7 +112,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 
 # CSRF Settings
-CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
-CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False  # Overridden in production
+CSRF_COOKIE_HTTPONLY = False  # Needed for JS CSRF token reading
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SAMESITE = 'Lax'

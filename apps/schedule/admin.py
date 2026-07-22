@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import *
+from .models import (
+    Room, Instructor, MeetingTime, Course, Department,
+    Section, TimeTableModel, Batch, PDF
+)
 
 admin.site.register(Room)
 admin.site.register(Instructor)

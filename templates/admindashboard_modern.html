@@ -4,245 +4,167 @@
 {% block title %}Admin Dashboard - AI Class Scheduling System{% endblock %}
 
 {% block content %}
-<div class="container-fluid py-4">
-    <!-- Dashboard Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <h1 class="display-6 fw-bold">
-                <i class="fas fa-tachometer-alt text-gradient"></i> Admin Dashboard
-            </h1>
-            <p class="text-muted">Manage your scheduling system with AI-powered tools</p>
+<section class="py-5" style="background: var(--gradient-hero); padding-top: 6rem !important;">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h1 class="h2 fw-bold text-white mb-1" style="letter-spacing: -0.02em;">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </h1>
+                <p class="text-white-50 mb-0">Manage your scheduling system</p>
+            </div>
+            <a href="{% url 'schedule:generate' %}" class="btn btn-modern btn-primary-modern">
+                <i class="fas fa-wand-magic-sparkles"></i> Generate Timetable
+            </a>
         </div>
     </div>
+</section>
 
-    <!-- Quick Stats -->
-    <div class="row g-4 mb-4">
-        <div class="col-xl-3 col-md-6">
-            <div class="dashboard-card" style="border-left-color: #6366f1;">
-                <div class="dashboard-card-icon bg-gradient text-white">
-                    <i class="fas fa-chalkboard-teacher"></i>
+<section class="py-5" style="margin-top: -2rem;">
+    <div class="container">
+        <!-- Quick Stats -->
+        <div class="row g-4 mb-5">
+            <div class="col-xl-3 col-md-6">
+                <div class="dashboard-card" style="border-left-color: #6366f1;">
+                    <div class="dashboard-card-icon" style="background: var(--gradient-ai); color: white;">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="dashboard-card-title">Instructors</div>
+                    <div class="dashboard-card-value">{{ instructors_count|default:"0" }}</div>
                 </div>
-                <div class="dashboard-card-title">Total Instructors</div>
-                <div class="dashboard-card-value">{{ instructors_count|default:"0" }}</div>
             </div>
-        </div>
-        
-        <div class="col-xl-3 col-md-6">
-            <div class="dashboard-card" style="border-left-color: #10b981;">
-                <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
-                    <i class="fas fa-door-open"></i>
+            <div class="col-xl-3 col-md-6">
+                <div class="dashboard-card" style="border-left-color: #10b981;">
+                    <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <div class="dashboard-card-title">Rooms</div>
+                    <div class="dashboard-card-value">{{ rooms_count|default:"0" }}</div>
                 </div>
-                <div class="dashboard-card-title">Total Rooms</div>
-                <div class="dashboard-card-value">{{ rooms_count|default:"0" }}</div>
             </div>
-        </div>
-        
-        <div class="col-xl-3 col-md-6">
-            <div class="dashboard-card" style="border-left-color: #f59e0b;">
-                <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
-                    <i class="fas fa-book"></i>
+            <div class="col-xl-3 col-md-6">
+                <div class="dashboard-card" style="border-left-color: #f59e0b;">
+                    <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316); color: white;">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="dashboard-card-title">Courses</div>
+                    <div class="dashboard-card-value">{{ courses_count|default:"0" }}</div>
                 </div>
-                <div class="dashboard-card-title">Total Courses</div>
-                <div class="dashboard-card-value">{{ courses_count|default:"0" }}</div>
             </div>
-        </div>
-        
-        <div class="col-xl-3 col-md-6">
-            <div class="dashboard-card" style="border-left-color: #8b5cf6;">
-                <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white;">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="dashboard-card-title">Total Sections</div>
-                <div class="dashboard-card-value">{{ sections_count|default:"0" }}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Management Cards -->
-    <div class="row g-4">
-        <!-- Instructors -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <h3 class="feature-title">Instructors</h3>
-                <p class="feature-description mb-4">
-                    Manage teaching staff and their assignments
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addInstructors' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editinstructor' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
+            <div class="col-xl-3 col-md-6">
+                <div class="dashboard-card" style="border-left-color: #8b5cf6;">
+                    <div class="dashboard-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: white;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="dashboard-card-title">Sections</div>
+                    <div class="dashboard-card-value">{{ sections_count|default:"0" }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Rooms -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-door-open"></i>
+        <!-- Management Grid -->
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3 class="feature-title">Instructors</h3>
+                    <p class="feature-description mb-3">Manage teaching staff and assignments</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addInstructors' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editinstructor' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
                 </div>
-                <h3 class="feature-title">Rooms</h3>
-                <p class="feature-description mb-4">
-                    Manage classrooms and their capacities
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addRooms' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editrooms' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-door-open"></i></div>
+                    <h3 class="feature-title">Rooms</h3>
+                    <p class="feature-description mb-3">Manage classrooms and capacities</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addRooms' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editrooms' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #06b6d4, #22d3ee);"><i class="fas fa-book"></i></div>
+                    <h3 class="feature-title">Courses</h3>
+                    <p class="feature-description mb-3">Manage courses and instructor assignments</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addCourses' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editcourse' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);"><i class="fas fa-clock"></i></div>
+                    <h3 class="feature-title">Meeting Times</h3>
+                    <p class="feature-description mb-3">Define time slots and days</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addTimings' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editmeetingtime' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);"><i class="fas fa-building"></i></div>
+                    <h3 class="feature-title">Departments</h3>
+                    <p class="feature-description mb-3">Organize courses by departments</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addDepts' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editdepartment' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);"><i class="fas fa-layer-group"></i></div>
+                    <h3 class="feature-title">Batches</h3>
+                    <p class="feature-description mb-3">Manage student batches and courses</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addBatches' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editbatch' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6);"><i class="fas fa-users"></i></div>
+                    <h3 class="feature-title">Sections</h3>
+                    <p class="feature-description mb-3">Define class sections and frequency</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:addSections' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add</a>
+                        <a href="{% url 'schedule:editsection' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100" style="border: 2px solid var(--primary); border-top: 2px solid var(--primary);">
+                    <div class="feature-icon" style="background: var(--gradient-ai); box-shadow: 0 4px 20px rgba(99,102,241,0.4);">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: var(--primary);">AI Timetable</h3>
+                    <p class="feature-description mb-3">Generate optimal schedules using genetic algorithms</p>
+                    <a href="{% url 'schedule:generate' %}" class="btn btn-primary">
+                        <i class="fas fa-wand-magic-sparkles"></i> Generate Now
                     </a>
                 </div>
             </div>
-        </div>
-
-        <!-- Courses -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3 class="feature-title">Courses</h3>
-                <p class="feature-description mb-4">
-                    Manage courses and assign instructors
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addCourses' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editcourse' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Meeting Times -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h3 class="feature-title">Meeting Times</h3>
-                <p class="feature-description mb-4">
-                    Define available time slots and days
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addTimings' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editmeetingtime' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Departments -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-building"></i>
-                </div>
-                <h3 class="feature-title">Departments</h3>
-                <p class="feature-description mb-4">
-                    Organize courses by departments
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addDepts' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editdepartment' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Batches -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-layer-group"></i>
-                </div>
-                <h3 class="feature-title">Batches</h3>
-                <p class="feature-description mb-4">
-                    Manage student batches and courses
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addBatches' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editbatch' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sections -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3 class="feature-title">Sections</h3>
-                <p class="feature-description mb-4">
-                    Define class sections and frequency
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:addSections' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> Add
-                    </a>
-                    <a href="{% url 'schedule:editsection' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Generate Timetable -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100 border-primary">
-                <div class="feature-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h3 class="feature-title">AI Timetable</h3>
-                <p class="feature-description mb-4">
-                    Generate optimal schedule using AI
-                </p>
-                <a href="{% url 'schedule:generate' %}" class="btn btn-primary">
-                    <i class="fas fa-magic"></i> Generate Now
-                </a>
-            </div>
-        </div>
-
-        <!-- PDF Management -->
-        <div class="col-lg-4 col-md-6">
-            <div class="feature-card h-100">
-                <div class="feature-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <h3 class="feature-title">PDF Management</h3>
-                <p class="feature-description mb-4">
-                    Upload and manage timetable PDFs
-                </p>
-                <div class="d-flex gap-2">
-                    <a href="{% url 'schedule:upload_pdf' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-upload"></i> Upload
-                    </a>
-                    <a href="{% url 'schedule:lists' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-list"></i> View All
-                    </a>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card h-100">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);"><i class="fas fa-file-pdf"></i></div>
+                    <h3 class="feature-title">PDF Management</h3>
+                    <p class="feature-description mb-3">Upload and manage timetable PDFs</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'schedule:upload_pdf' %}" class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</a>
+                        <a href="{% url 'schedule:lists' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> View All</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

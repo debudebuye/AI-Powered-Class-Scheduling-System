@@ -4,68 +4,60 @@
 {% block title %}Login - AI Class Scheduling System{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
+<section class="hero-section" style="padding: 5rem 0 4rem;">
     <div class="container">
-        <div class="text-center hero-content">
-            <div class="ai-badge">
-                <i class="fas fa-user-lock"></i> Admin Access
-            </div>
-            <h1 class="hero-title">Welcome Back</h1>
-            <p class="hero-subtitle">
-                Login to access the AI scheduling dashboard
-            </p>
-        </div>
-    </div>
-</section>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-5">
+                <div class="modern-form" style="border-radius: var(--radius-2xl); box-shadow: var(--shadow-2xl); border: none;">
+                    <div class="text-center mb-4">
+                        <div class="feature-icon mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="fw-bold" style="letter-spacing: -0.02em;">Welcome Back</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.925rem;">Sign in to access the scheduling dashboard</p>
+                    </div>
 
-<!-- Login Form Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-                <div class="modern-form">
                     {% if messages %}
-                    <div class="mb-4">
+                    <div class="mb-3">
                         {% for message in messages %}
                         <div class="alert-modern alert-{{ message.tags }}">
-                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
                             {{ message }}
                         </div>
                         {% endfor %}
                     </div>
                     {% endif %}
-                    
+
                     <form method="post" action="{% url 'schedule:adminlogin' %}">
                         {% csrf_token %}
-                        
+
                         <div class="form-group-modern">
                             <label class="form-label-modern">
-                                <i class="fas fa-user"></i> Username
+                                <i class="fas fa-user" style="color: var(--primary);"></i> Username
                             </label>
-                            <input type="text" name="username" class="form-control-modern" 
-                                   placeholder="Enter your username" required>
+                            <input type="text" name="username" class="form-control-modern"
+                                   placeholder="Enter your username" required autofocus
+                                   style="padding-left: 2.5rem; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%22%2394a3b8%22 viewBox=%220 0 16 16%22><path d=%22M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H4s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z%22/></svg'); background-repeat: no-repeat; background-position: 0.75rem center;">
                         </div>
-                        
+
                         <div class="form-group-modern">
                             <label class="form-label-modern">
-                                <i class="fas fa-lock"></i> Password
+                                <i class="fas fa-lock" style="color: var(--primary);"></i> Password
                             </label>
-                            <input type="password" name="password" class="form-control-modern" 
-                                   placeholder="Enter your password" required>
+                            <input type="password" name="password" class="form-control-modern"
+                                   placeholder="Enter your password" required
+                                   style="padding-left: 2.5rem; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%22%2394a3b8%22 viewBox=%220 0 16 16%22><path d=%22M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2%22/></svg'); background-repeat: no-repeat; background-position: 0.75rem center;">
                         </div>
-                        
-                        <button type="submit" class="btn btn-modern btn-primary-modern w-100">
-                            <i class="fas fa-sign-in-alt"></i> Login
+
+                        <button type="submit" class="btn btn-modern w-100 mt-2" style="background: var(--gradient-ai); color: white; padding: 0.85rem; font-size: 1rem; border-radius: var(--radius-lg);">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
                         </button>
                     </form>
-                    
+
                     <div class="text-center mt-4">
-                        <p class="text-muted">
-                            <a href="{% url 'schedule:index' %}" class="text-decoration-none">
-                                <i class="fas fa-arrow-left"></i> Back to Home
-                            </a>
-                        </p>
+                        <a href="{% url 'schedule:index' %}" class="text-decoration-none" style="color: var(--gray); font-size: 0.9rem;">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </a>
                     </div>
                 </div>
             </div>

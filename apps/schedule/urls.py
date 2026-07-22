@@ -73,4 +73,7 @@ urlpatterns = [
     
     # Login page
     path('login/', views.index1, name='index1'),
+
+    # Health check
+    path('health/', views.health_check, name='health_check'),
 ]

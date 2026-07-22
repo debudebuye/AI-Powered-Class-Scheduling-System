@@ -10,27 +10,30 @@
         <div class="row align-items-center">
             <div class="col-lg-6 hero-content">
                 <div class="ai-badge">
-                    <i class="fas fa-robot"></i> Powered by Evolutionary AI
+                    <i class="fas fa-bolt"></i> Powered by Evolutionary AI
                 </div>
                 <h1 class="hero-title">
-                    Intelligent Class Scheduling Made Simple
+                    Smarter Schedules,<br>Zero Conflicts
                 </h1>
                 <p class="hero-subtitle">
-                    Automatically generate optimal class schedules using advanced genetic algorithms. 
-                    Save hours of manual work with AI-powered optimization.
+                    Generate optimized class timetables in seconds. Our genetic algorithm 
+                    solves complex scheduling constraints so you don't have to.
                 </p>
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="{% url 'schedule:index1' %}" class="btn btn-modern btn-primary-modern">
                         <i class="fas fa-rocket"></i> Get Started
                     </a>
                     <a href="{% url 'schedule:aboutus' %}" class="btn btn-modern btn-outline-modern">
-                        <i class="fas fa-info-circle"></i> Learn More
+                        <i class="fas fa-play-circle"></i> See How It Works
                     </a>
                 </div>
             </div>
             <div class="col-lg-6 text-center mt-5 mt-lg-0">
                 <div class="hero-illustration">
-                    <i class="fas fa-brain fa-10x" style="opacity: 0.9;"></i>
+                    <div class="brain-wrapper">
+                        <div class="brain-glow"></div>
+                        <i class="fas fa-brain"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,32 +46,26 @@
         <div class="row g-4">
             <div class="col-md-3 col-sm-6">
                 <div class="stats-card">
-                    <div class="stats-number">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="stats-label">AI-Powered</div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="stats-card">
                     <div class="stats-number">100%</div>
                     <div class="stats-label">Conflict-Free</div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="stats-card">
-                    <div class="stats-number">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="stats-label">Fast Generation</div>
+                    <div class="stats-number"><i class="fas fa-bolt"></i></div>
+                    <div class="stats-label">Instant Generation</div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="stats-card">
-                    <div class="stats-number">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stats-label">Optimized</div>
+                    <div class="stats-number"><i class="fas fa-brain"></i></div>
+                    <div class="stats-label">AI Optimized</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card">
+                    <div class="stats-number"><i class="fas fa-shield-halved"></i></div>
+                    <div class="stats-label">Secure Access</div>
                 </div>
             </div>
         </div>
@@ -79,89 +76,92 @@
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
+            <div class="ai-badge mb-3" style="background: var(--primary-50); color: var(--primary); border-color: rgba(99,102,241,0.2);">
+                <i class="fas fa-sparkles"></i> Features
+            </div>
             <h2 class="display-5 fw-bold mb-3">
-                <span class="text-gradient">AI-Powered Features</span>
+                <span class="text-gradient">AI-Powered Scheduling</span>
             </h2>
-            <p class="lead text-muted">
-                Leverage cutting-edge evolutionary algorithms for intelligent scheduling
+            <p class="lead text-muted mx-auto" style="max-width: 600px;">
+                Everything you need to generate, manage, and export optimized class timetables
             </p>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
+                        <i class="fas fa-dna"></i>
                     </div>
                     <h3 class="feature-title">Genetic Algorithm</h3>
                     <p class="feature-description">
-                        Uses evolutionary AI to find optimal schedules by mimicking natural selection. 
-                        Automatically handles complex constraints and conflicts.
+                        Evolutionary AI that mimics natural selection to find the optimal schedule 
+                        through thousands of iterations.
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-magic"></i>
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #06b6d4, #22d3ee);">
+                        <i class="fas fa-wand-magic-sparkles"></i>
                     </div>
                     <h3 class="feature-title">Smart Optimization</h3>
                     <p class="feature-description">
-                        Intelligent resource allocation for instructors, rooms, and time slots. 
-                        Maximizes efficiency while satisfying all constraints.
+                        Automatically allocates instructors, rooms, and time slots 
+                        while maximizing efficiency and satisfying all constraints.
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                        <i class="fas fa-shield-halved"></i>
                     </div>
-                    <h3 class="feature-title">Conflict Resolution</h3>
+                    <h3 class="feature-title">Conflict Detection</h3>
                     <p class="feature-description">
-                        Automatically detects and resolves scheduling conflicts. 
-                        Ensures no double-booking or capacity issues.
+                        Real-time detection and resolution of room double-bookings, 
+                        instructor overlaps, and capacity violations.
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-layer-group"></i>
                     </div>
                     <h3 class="feature-title">Resource Management</h3>
                     <p class="feature-description">
-                        Comprehensive management of instructors, rooms, courses, departments, 
-                        batches, and sections all in one place.
+                        Centralized management of instructors, rooms, courses, 
+                        departments, batches, and sections.
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="feature-card">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">
                         <i class="fas fa-file-pdf"></i>
                     </div>
                     <h3 class="feature-title">PDF Export</h3>
                     <p class="feature-description">
-                        Generate professional PDF timetables with one click. 
-                        Easy to share and print for distribution.
+                        Generate professional, print-ready PDF timetables 
+                        with one click for easy distribution.
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                        <i class="fas fa-users-gear"></i>
                     </div>
-                    <h3 class="feature-title">Analytics</h3>
+                    <h3 class="feature-title">Role-Based Access</h3>
                     <p class="feature-description">
-                        Track scheduling efficiency and resource utilization. 
-                        Make data-driven decisions for better planning.
+                        Secure admin dashboard with staff-only operations 
+                        and protected endpoints.
                     </p>
                 </div>
             </div>
@@ -169,59 +169,62 @@
     </div>
 </section>
 
-<!-- How It Works Section -->
+<!-- How It Works -->
 <section class="py-5 bg-white">
     <div class="container">
         <div class="text-center mb-5">
+            <div class="ai-badge mb-3" style="background: var(--primary-50); color: var(--primary); border-color: rgba(99,102,241,0.2);">
+                <i class="fas fa-list-ol"></i> Process
+            </div>
             <h2 class="display-5 fw-bold mb-3">How It Works</h2>
-            <p class="lead text-muted">Simple 4-step process to generate optimal schedules</p>
+            <p class="lead text-muted">Four steps to a perfect schedule</p>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-3">
-                <div class="text-center">
-                    <div class="feature-icon mx-auto mb-3">
-                        <i class="fas fa-database"></i>
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #6366f1, #818cf8);">
+                        <span style="font-size: 1.2rem; font-weight: 800;">1</span>
                     </div>
-                    <h5 class="fw-bold">1. Add Resources</h5>
-                    <p class="text-muted">
-                        Input instructors, rooms, courses, and time slots
+                    <h5 class="fw-bold">Add Resources</h5>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        Input instructors, rooms, courses, and available time slots
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-3">
-                <div class="text-center">
-                    <div class="feature-icon mx-auto mb-3">
-                        <i class="fas fa-cogs"></i>
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #06b6d4, #22d3ee);">
+                        <span style="font-size: 1.2rem; font-weight: 800;">2</span>
                     </div>
-                    <h5 class="fw-bold">2. Set Constraints</h5>
-                    <p class="text-muted">
-                        Define requirements and preferences
+                    <h5 class="fw-bold">Set Constraints</h5>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        Define batches, sections, and weekly class frequency
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-3">
-                <div class="text-center">
-                    <div class="feature-icon mx-auto mb-3">
-                        <i class="fas fa-robot"></i>
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                        <span style="font-size: 1.2rem; font-weight: 800;">3</span>
                     </div>
-                    <h5 class="fw-bold">3. AI Generation</h5>
-                    <p class="text-muted">
-                        Let AI create optimal schedule
+                    <h5 class="fw-bold">AI Generation</h5>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        Genetic algorithm evolves optimal conflict-free schedules
                     </p>
                 </div>
             </div>
-            
+
             <div class="col-md-3">
-                <div class="text-center">
-                    <div class="feature-icon mx-auto mb-3">
-                        <i class="fas fa-check-circle"></i>
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <span style="font-size: 1.2rem; font-weight: 800;">4</span>
                     </div>
-                    <h5 class="fw-bold">4. Export & Use</h5>
-                    <p class="text-muted">
-                        Download and distribute timetables
+                    <h5 class="fw-bold">Export & Share</h5>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        Download as PDF and distribute to departments
                     </p>
                 </div>
             </div>
@@ -230,18 +233,19 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 bg-gradient">
-    <div class="container">
+<section class="py-5" style="background: var(--gradient-hero); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);"></div>
+    <div class="container" style="position: relative; z-index: 1;">
         <div class="row align-items-center">
             <div class="col-lg-8 text-white">
-                <h2 class="display-6 fw-bold mb-3">Ready to Transform Your Scheduling?</h2>
-                <p class="lead mb-0">
-                    Join institutions using AI to save time and optimize resources
+                <h2 class="display-6 fw-bold mb-3">Ready to Automate Your Scheduling?</h2>
+                <p class="lead mb-0 opacity-75">
+                    Stop spending hours on manual timetables. Let AI do the heavy lifting.
                 </p>
             </div>
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
                 <a href="{% url 'schedule:index1' %}" class="btn btn-modern btn-primary-modern btn-lg">
-                    <i class="fas fa-rocket"></i> Get Started Now
+                    <i class="fas fa-rocket"></i> Start Now
                 </a>
             </div>
         </div>

@@ -1,17 +1,26 @@
 """
 Views for account app - user authentication and management.
 """
+import logging
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from decouple import config
 
 from .models import Profile
 from .forms import LoginForm, UserRegistrationForm
+
+logger = logging.getLogger(__name__)
+
+
+def _is_staff(user):
+    return user.is_active and user.is_staff
 
 
 def register(request):
@@ -36,24 +45,38 @@ def user_list(request):
     return render(request, 'account/user_list.html', {'users': users})
 
 
+@require_POST
 @login_required
+@user_passes_test(_is_staff)
 def delete_user(request, user_id):
-    """Delete a user."""
+    """Delete a user. Staff only."""
     user = get_object_or_404(User, pk=user_id)
+    if user == request.user:
+        messages.error(request, "You cannot delete your own account.")
+        return redirect('account:user_list')
     user.delete()
+    messages.success(request, f"User '{user.username}' deleted.")
     return redirect('account:user_list')
 
 
 @login_required
+@user_passes_test(_is_staff)
 def update_user(request, user_id):
-    """Update user information."""
+    """Update user information. Staff only."""
     if request.method == 'POST':
         user = get_object_or_404(User, pk=user_id)
-        user.username = request.POST.get('username')
+        username = request.POST.get('username', '').strip()
+        if not username:
+            messages.error(request, "Username cannot be empty.")
+            return redirect('account:update_user_page', user_id=user_id)
+        if User.objects.filter(username=username).exclude(pk=user.pk).exists():
+            messages.error(request, "Username already taken.")
+            return redirect('account:update_user_page', user_id=user_id)
+        user.username = username
         user.save()
+        messages.success(request, f"User '{user.username}' updated.")
         return redirect('account:user_list')
-    else:
-        return redirect(reverse('account:update_user_page', kwargs={'user_id': user_id}))
+    return redirect(reverse('account:update_user_page', kwargs={'user_id': user_id}))
 
 
 @login_required
@@ -64,22 +87,27 @@ def update_user_page(request, user_id):
 
 
 def admin_login(request):
-    """
-    Admin login view.
-    Note: This should be replaced with Django's built-in authentication in production.
-    """
+    """Admin login view using Django's built-in authentication."""
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # Get credentials from environment variables
-        admin_username = config('ADMIN_USERNAME', default='admin')
-        admin_password = config('ADMIN_PASSWORD', default='password')
-        
-        if username == admin_username and password == admin_password:
-            messages.success(request, "Login successful!")
-            return redirect('schedule:index1')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+
+        if not username or not password:
+            messages.error(request, "Please enter both username and password.")
+            return render(request, 'account/adminlogin.html')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                logger.info("User '%s' logged in successfully.", username)
+                messages.success(request, "Login successful!")
+                return redirect('schedule:admindash')
+            else:
+                logger.warning("Disabled user '%s' attempted login.", username)
+                messages.error(request, "This account has been disabled.")
         else:
+            logger.warning("Failed login attempt for username '%s'.", username)
             messages.error(request, "Invalid username or password.")
-    
+
     return render(request, 'account/adminlogin.html')
