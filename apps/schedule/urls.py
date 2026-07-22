@@ -4,6 +4,8 @@ URL configuration for schedule app.
 
 from django.urls import path
 
+from apps.account.views import admin_login
+
 from . import views
 
 app_name = "schedule"
@@ -16,7 +18,7 @@ urlpatterns = [
     path("terms/", views.terms, name="terms"),
     # Admin
     path("admin-dashboard/", views.admindash, name="admindash"),
-    path("manage/", views.admin_login, name="adminlogin"),
+    path("manage/", admin_login, name="adminlogin"),
     path("logout/", views.admin_logout, name="logout"),
     # Teachers/Instructors
     path("teachers/add/", views.addInstructor, name="addInstructors"),

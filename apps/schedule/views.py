@@ -2,13 +2,15 @@
 Views for schedule app - timetable generation and resource management.
 """
 
+import json
 import logging
 import os
 
 from decouple import config
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -37,6 +39,8 @@ from .models import (
 from .services import TimetableGeneratorService
 
 logger = logging.getLogger(__name__)
+
+PAGINATE_BY = 20
 
 
 def _is_staff(user):
@@ -87,33 +91,6 @@ def about(request):
 def admindash(request):
     """Admin dashboard."""
     return render(request, "admindashboard_modern.html")
-
-
-def admin_login(request):
-    """Admin login handler using Django's built-in authentication."""
-    if request.method == "POST":
-        username = request.POST.get("username", "").strip()
-        password = request.POST.get("password", "")
-
-        if not username or not password:
-            messages.error(request, "Please enter both username and password.")
-            return render(request, "login_modern.html")
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                logger.info("User '%s' logged in successfully.", username)
-                messages.success(request, "Login successful!")
-                return redirect("schedule:admindash")
-            else:
-                logger.warning("Disabled user '%s' attempted login.", username)
-                messages.error(request, "This account has been disabled.")
-        else:
-            logger.warning("Failed login attempt for username '%s'.", username)
-            messages.error(request, "Invalid username or password.")
-
-    return render(request, "login_modern.html")
 
 
 @require_POST
@@ -248,7 +225,7 @@ def addCourses(request):
 @login_required
 def course_list_view(request):
     """List all courses."""
-    courses = Course.objects.all()
+    courses = Course.objects.prefetch_related("instructors").all()
     return render(request, "courseslist_modern.html", {"courses": courses})
 
 
@@ -316,7 +293,9 @@ def addBatches(request):
 @login_required
 def batch_list(request):
     """List all batches."""
-    batches = Batch.objects.all()
+    batches = (
+        Batch.objects.select_related("department").prefetch_related("courses").all()
+    )
     return render(request, "batchlist_modern.html", {"batches": batches})
 
 
@@ -350,7 +329,9 @@ def addSections(request):
 @login_required
 def section_list(request):
     """List all sections."""
-    sections = Section.objects.all()
+    sections = Section.objects.select_related(
+        "batch", "course", "meeting_time", "room", "instructor"
+    ).all()
     return render(request, "seclist_modern.html", {"sections": sections})
 
 
@@ -383,7 +364,7 @@ def timetable(request):
     """Generate timetable using genetic algorithm. Staff only."""
     try:
         schedule = TimetableGeneratorService.generate()
-        sections = Section.objects.all()
+        sections = Section.objects.select_related("batch", "course").all()
         times = MeetingTime.objects.all()
 
         return render(
@@ -414,6 +395,14 @@ def edittt(request):
 def pdf_list(request):
     """List all PDFs for viewer."""
     pdfs = PDF.objects.all()
+    paginator = Paginator(pdfs, PAGINATE_BY)
+    page = request.GET.get("page")
+    try:
+        pdfs = paginator.page(page)
+    except PageNotAnInteger:
+        pdfs = paginator.page(1)
+    except EmptyPage:
+        pdfs = paginator.page(paginator.num_pages)
     return render(request, "pdf_list.html", {"pdfs": pdfs})
 
 
@@ -421,6 +410,14 @@ def pdf_list(request):
 def lists(request):
     """List all PDFs for admin."""
     pdfs = PDF.objects.all()
+    paginator = Paginator(pdfs, PAGINATE_BY)
+    page = request.GET.get("page")
+    try:
+        pdfs = paginator.page(page)
+    except PageNotAnInteger:
+        pdfs = paginator.page(1)
+    except EmptyPage:
+        pdfs = paginator.page(paginator.num_pages)
     return render(request, "list_modern.html", {"pdfs": pdfs})
 
 
@@ -471,6 +468,14 @@ def download_pdf(request, pk):
 # Suggestions
 # ============================================================================
 
+SUGGESTION_MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024  # 5MB
+SUGGESTION_ALLOWED_TYPES = {
+    "image/png",
+    "image/jpeg",
+    "application/pdf",
+    "text/plain",
+}
+
 
 def suggestion_view(request):
     """Handle suggestion form."""
@@ -481,6 +486,20 @@ def suggestion_view(request):
             email = form.cleaned_data["email"]
             suggestion = form.cleaned_data["suggestion"]
             attachment = request.FILES.get("attachment")
+
+            if attachment:
+                if attachment.content_type not in SUGGESTION_ALLOWED_TYPES:
+                    messages.error(
+                        request,
+                        f"File type '{attachment.content_type}' is not allowed.",
+                    )
+                    return render(request, "suggestion_form.html", {"form": form})
+                if attachment.size > SUGGESTION_MAX_ATTACHMENT_SIZE:
+                    messages.error(
+                        request,
+                        "File size must be under 5MB.",
+                    )
+                    return render(request, "suggestion_form.html", {"form": form})
 
             subject = f"Suggestion from {name}"
             body = f"Name: {name}\nEmail: {email}\nSuggestion:\n{suggestion}"
@@ -512,8 +531,6 @@ def suggestion_thanks_view(request):
 
 def health_check(request):
     """Health check endpoint for load balancers and monitoring."""
-    import json
-
     from django.db import connection
 
     status = {"status": "ok"}

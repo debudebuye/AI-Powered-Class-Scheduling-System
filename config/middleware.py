@@ -1,23 +1,22 @@
 """
-Rate limiting middleware for login and registration endpoints.
+Rate limiting and security middleware.
 """
 
 import logging
 import time
 
-from django.contrib import messages
+from django.core.cache import cache
 from django.shortcuts import render
 
 logger = logging.getLogger(__name__)
 
-# In-memory rate limit store. In production, use Redis via django.core.cache.
-_rate_limit_store = {}
-
-# Default limits
+# Rate limit defaults
 LOGIN_MAX_ATTEMPTS = 5
 LOGIN_WINDOW_SECONDS = 900  # 15 minutes
 REGISTER_MAX_ATTEMPTS = 3
 REGISTER_WINDOW_SECONDS = 3600  # 1 hour
+
+CACHE_TTL = max(LOGIN_WINDOW_SECONDS, REGISTER_WINDOW_SECONDS) + 60
 
 
 def _get_client_ip(request):
@@ -29,12 +28,13 @@ def _get_client_ip(request):
 
 def _check_rate_limit(key, max_attempts, window_seconds):
     now = time.time()
-    if key not in _rate_limit_store:
+    record = cache.get(key)
+    if record is None:
         return True
 
-    attempts, window_start = _rate_limit_store[key]
+    attempts, window_start = record
     if now - window_start > window_seconds:
-        del _rate_limit_store[key]
+        cache.delete(key)
         return True
 
     if attempts >= max_attempts:
@@ -45,14 +45,15 @@ def _check_rate_limit(key, max_attempts, window_seconds):
 
 def _record_attempt(key, window_seconds):
     now = time.time()
-    if key in _rate_limit_store:
-        attempts, window_start = _rate_limit_store[key]
+    record = cache.get(key)
+    if record is not None:
+        attempts, window_start = record
         if now - window_start > window_seconds:
-            _rate_limit_store[key] = (1, now)
+            cache.set(key, (1, now), CACHE_TTL)
         else:
-            _rate_limit_store[key] = (attempts + 1, window_start)
+            cache.set(key, (attempts + 1, window_start), CACHE_TTL)
     else:
-        _rate_limit_store[key] = (1, now)
+        cache.set(key, (1, now), CACHE_TTL)
 
 
 class SecurityHeadersMiddleware:
@@ -64,7 +65,6 @@ class SecurityHeadersMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         response["X-Content-Type-Options"] = "nosniff"
-        response["X-Frame-Options"] = "SAMEORIGIN"
         response["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
         return response
@@ -83,10 +83,12 @@ class LoginRateLimitMiddleware:
 
             if not _check_rate_limit(key, LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_SECONDS):
                 logger.warning("Rate limit exceeded for login from IP %s", ip)
-                messages.error(
-                    request, "Too many login attempts. Please try again later."
+                return render(
+                    request,
+                    "login_modern.html",
+                    {"error": "Too many login attempts. Please try again later."},
+                    status=429,
                 )
-                return render(request, "login_modern.html", status=429)
 
             _record_attempt(key, LOGIN_WINDOW_SECONDS)
 
@@ -108,10 +110,14 @@ class RegistrationRateLimitMiddleware:
                 key, REGISTER_MAX_ATTEMPTS, REGISTER_WINDOW_SECONDS
             ):
                 logger.warning("Rate limit exceeded for registration from IP %s", ip)
-                messages.error(
-                    request, "Too many registration attempts. Please try again later."
+                return render(
+                    request,
+                    "account/register.html",
+                    {
+                        "error": "Too many registration attempts. Please try again later."
+                    },
+                    status=429,
                 )
-                return render(request, "account/register.html", status=429)
 
             _record_attempt(key, REGISTER_WINDOW_SECONDS)
 

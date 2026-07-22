@@ -148,9 +148,7 @@ class Schedule:
 
         for i in range(len(classes)):
             # Check room capacity
-            if classes[i].room.seating_capacity < int(
-                classes[i].course.max_numb_students
-            ):
+            if classes[i].room.seating_capacity < classes[i].course.max_numb_students:
                 self._numberOfConflicts += 1
 
             # Check for conflicts with other classes

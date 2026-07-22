@@ -60,12 +60,12 @@ class MeetingTimeModelTest(TestCase):
 class CourseModelTest(TestCase):
     def test_create_course(self):
         course = Course.objects.create(
-            course_number="C001", course_name="Math", max_numb_students="60"
+            course_number="C001", course_name="Math", max_numb_students=60
         )
         self.assertEqual(str(course), "C001 Math")
 
     def test_auto_generate_course_number(self):
-        course = Course.objects.create(course_name="Science", max_numb_students="45")
+        course = Course.objects.create(course_name="Science", max_numb_students=45)
         self.assertEqual(course.course_number, "C001")
 
 

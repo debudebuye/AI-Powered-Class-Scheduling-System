@@ -37,7 +37,7 @@ jobs:
           --health-retries 5
     env:
       DJANGO_ENV: production
-      SECRET_KEY: test-secret-key-for-ci-only
+      SECRET_KEY: test-secret-key-must-be-at-least-fifty-characters-long-for-production
       ALLOWED_HOSTS: localhost
       DB_NAME: test_db
       DB_USER: postgres

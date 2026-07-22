@@ -1,18 +1,49 @@
-{% extends "base_modern.html" %}
-
-{% block title %}Server Error - AI Scheduling System{% endblock %}
-
-{% block content %}
-<section class="hero-section" style="padding: 6rem 0; text-align: center;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error - AI Scheduling System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { text-align: center; padding: 2rem; }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            opacity: 0.15;
+            line-height: 1;
+            margin-bottom: -1rem;
+        }
+        h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+        p { opacity: 0.75; max-width: 400px; margin: 0 auto 2rem; line-height: 1.6; }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #3b82f6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
     <div class="container">
-        <h1 style="font-size: 8rem; font-weight: 900; opacity: 0.15; margin-bottom: -1rem;">500</h1>
-        <h2 class="fw-bold mb-3">Server Error</h2>
-        <p class="opacity-75 mb-4 mx-auto" style="max-width: 400px;">
-            Something went wrong on our end. Please try again later.
-        </p>
-        <a href="{% url 'schedule:index' %}" class="btn btn-modern btn-primary-modern">
-            <i class="fas fa-home"></i> Go Home
-        </a>
+        <div class="error-code">500</div>
+        <h2>Server Error</h2>
+        <p>Something went wrong on our end. Please try again later.</p>
+        <a href="/" class="btn">Go Home</a>
     </div>
-</section>
-{% endblock %}
+</body>
+</html>

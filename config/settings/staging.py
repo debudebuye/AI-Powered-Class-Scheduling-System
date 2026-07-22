@@ -4,12 +4,12 @@ Staging-specific settings.
 
 from .base import *  # noqa: F401,F403
 
-DEBUG = True
+DEBUG = False
 
-# Staging uses similar security to production but with DEBUG enabled
+# Staging uses production-like security with DEBUG off
 SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Logging
 LOGGING = {

@@ -2,17 +2,34 @@
 Main URL Configuration for AMUCSS project.
 """
 
+from decouple import config
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from django.views.defaults import page_not_found, server_error
 
-handler404 = page_not_found
-handler500 = server_error
+
+def custom_404(request, exception):
+    """Custom 404 view."""
+    from django.shortcuts import render
+
+    return render(request, "404.html", status=404)
+
+
+def custom_500(request):
+    """Custom 500 view - uses empty context to avoid cascading errors."""
+    from django.shortcuts import render
+
+    return render(request, "500.html", status=500)
+
+
+handler404 = custom_404
+handler500 = custom_500
+
+admin_url = config("ADMIN_URL", default="management-console/")
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(admin_url, admin.site.urls),
     path("", include("apps.schedule.urls", namespace="schedule")),
     path("account/", include("apps.account.urls", namespace="account")),
 ]

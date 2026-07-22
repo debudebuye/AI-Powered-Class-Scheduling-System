@@ -10,6 +10,8 @@ venv
 .pytest_cache
 htmlcov
 .coverage
+coverage.xml
+.flake8
 logs/
 *.log
 db.sqlite3
@@ -20,3 +22,4 @@ staticfiles/
 *.md
 docker-compose.yml
 nginx.conf
+.github/

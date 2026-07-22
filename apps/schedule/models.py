@@ -134,7 +134,7 @@ class MeetingTime(models.Model):
 class Course(models.Model):
     course_number = models.CharField(max_length=5, primary_key=True)
     course_name = models.CharField(max_length=40)
-    max_numb_students = models.CharField(max_length=65)
+    max_numb_students = models.PositiveIntegerField(default=60)
     instructors = models.ManyToManyField(Instructor, blank=True)
 
     def save(self, *args, **kwargs):

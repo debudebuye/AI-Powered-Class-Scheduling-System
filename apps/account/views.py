@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -40,7 +41,15 @@ def register(request):
 @login_required
 def user_list(request):
     """Display list of all users."""
-    users = User.objects.all()
+    users_list = User.objects.all()
+    paginator = Paginator(users_list, 20)
+    page = request.GET.get("page")
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
     return render(request, "account/user_list.html", {"users": users})
 
 

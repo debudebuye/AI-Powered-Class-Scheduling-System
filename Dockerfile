@@ -15,8 +15,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p /app/logs /app/staticfiles /app/media/pdfs
+RUN mkdir -p /app/logs /app/staticfiles /app/media/pdfs \
+    && useradd -m -s /bin/bash appworker \
+    && chown -R appworker:appworker /app
+
+USER appworker
 
 EXPOSE 8000
 
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "120"]
+CMD ["sh", "-c", "gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers ${GUNICORN_WORKERS:-4} --timeout 120"]

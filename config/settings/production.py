@@ -53,6 +53,13 @@ DATABASES = {
     }
 }
 
+# SECURITY: Fail if DB_PASSWORD is empty
+if not DATABASES["default"]["PASSWORD"]:
+    raise ValueError(
+        "DB_PASSWORD must be set in production. "
+        "Set the DB_PASSWORD environment variable."
+    )
+
 # Logging
 LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True)
