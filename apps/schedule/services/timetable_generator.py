@@ -3,9 +3,12 @@ Service for generating timetables using genetic algorithm.
 """
 
 import logging
-from typing import List, Dict
-from apps.schedule.models import TimeTableModel, Section, MeetingTime
-from .genetic_algorithm import Data, Population, GeneticAlgorithm, POPULATION_SIZE
+from typing import Dict, List
+
+from apps.schedule.models import MeetingTime, Section, TimeTableModel
+
+from .genetic_algorithm import (POPULATION_SIZE, Data, GeneticAlgorithm,
+                                Population)
 
 logger = logging.getLogger(__name__)
 

@@ -1,15 +1,8 @@
-from django.forms import ModelForm
 from django import forms
-from .models import (
-    Room,
-    Instructor,
-    MeetingTime,
-    Course,
-    Department,
-    Batch,
-    Section,
-    PDF,
-)
+from django.forms import ModelForm
+
+from .models import (PDF, Batch, Course, Department, Instructor, MeetingTime,
+                     Room, Section)
 
 
 class RoomForm(ModelForm):

@@ -4,6 +4,7 @@ Base settings shared across all environments.
 
 import os
 from pathlib import Path
+
 from decouple import config
 
 # Build paths

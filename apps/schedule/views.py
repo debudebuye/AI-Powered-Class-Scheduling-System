@@ -5,37 +5,20 @@ Views for schedule app - timetable generation and resource management.
 import logging
 import os
 
-from django.http import HttpResponse, FileResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from decouple import config
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib import messages
+from django.http import FileResponse, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-from django.conf import settings
-from decouple import config
 
-from .forms import (
-    RoomForm,
-    InstructorForm,
-    MeetingTimeForm,
-    CourseForm,
-    DepartmentForm,
-    BatchForm,
-    SectionForm,
-    SuggestionForm,
-    PDFUploadForm,
-)
-from .models import (
-    Room,
-    Instructor,
-    MeetingTime,
-    Course,
-    Department,
-    Batch,
-    Section,
-    TimeTableModel,
-    PDF,
-)
+from .forms import (BatchForm, CourseForm, DepartmentForm, InstructorForm,
+                    MeetingTimeForm, PDFUploadForm, RoomForm, SectionForm,
+                    SuggestionForm)
+from .models import (PDF, Batch, Course, Department, Instructor, MeetingTime,
+                     Room, Section, TimeTableModel)
 from .services import TimetableGeneratorService
 
 logger = logging.getLogger(__name__)
@@ -515,6 +498,7 @@ def suggestion_thanks_view(request):
 def health_check(request):
     """Health check endpoint for load balancers and monitoring."""
     import json
+
     from django.db import connection
 
     status = {"status": "ok"}

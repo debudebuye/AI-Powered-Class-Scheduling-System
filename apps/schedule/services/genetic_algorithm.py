@@ -5,7 +5,8 @@ Genetic Algorithm implementation for timetable generation.
 import random as rnd
 from typing import List
 
-from apps.schedule.models import Room, MeetingTime, Instructor, Course, Section, Batch
+from apps.schedule.models import (Batch, Course, Instructor, MeetingTime, Room,
+                                  Section)
 
 # Algorithm parameters
 POPULATION_SIZE = 9

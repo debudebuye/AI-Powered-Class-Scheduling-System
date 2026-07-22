@@ -4,18 +4,18 @@ Views for account app - user authentication and management.
 
 import logging
 
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from decouple import config
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib import messages
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from decouple import config
 
-from .models import Profile
 from .forms import LoginForm, UserRegistrationForm
+from .models import Profile
 
 logger = logging.getLogger(__name__)
 
