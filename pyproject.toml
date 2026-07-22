@@ -5,3 +5,9 @@ target-version = ["py311"]
 [tool.isort]
 profile = "black"
 line_length = 88
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.development"
+python_files = "tests.py"
+python_classes = "Test*"
+python_functions = "test_*"
