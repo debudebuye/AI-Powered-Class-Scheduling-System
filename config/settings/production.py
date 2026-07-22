@@ -2,9 +2,7 @@
 Production-specific settings.
 """
 
-import os
-
-from .base import *
+from .base import *  # noqa: F401,F403
 
 # SECURITY: Fail if SECRET_KEY is still the default
 if SECRET_KEY == "unsafe-secret-key-change-in-production":

@@ -5,7 +5,7 @@ Service for generating timetables using genetic algorithm.
 import logging
 from typing import Dict, List
 
-from apps.schedule.models import MeetingTime, Section, TimeTableModel
+from apps.schedule.models import Section, TimeTableModel
 
 from .genetic_algorithm import POPULATION_SIZE, Data, GeneticAlgorithm, Population
 

@@ -6,7 +6,6 @@ import logging
 import os
 
 from decouple import config
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -34,7 +33,6 @@ from .models import (
     MeetingTime,
     Room,
     Section,
-    TimeTableModel,
 )
 from .services import TimetableGeneratorService
 

@@ -8,8 +8,8 @@ from decouple import config
 ENV = config("DJANGO_ENV", default="development")
 
 if ENV == "production":
-    from .production import *
+    from .production import *  # noqa: F401,F403
 elif ENV == "staging":
-    from .staging import *
+    from .staging import *  # noqa: F401,F403
 else:
-    from .development import *
+    from .development import *  # noqa: F401,F403

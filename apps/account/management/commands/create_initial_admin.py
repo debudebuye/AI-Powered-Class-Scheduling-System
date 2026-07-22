@@ -49,7 +49,7 @@ class Command(BaseCommand):
             )
             return
 
-        user = User.objects.create_superuser(
+        User.objects.create_superuser(
             username=username,
             email=email,
             password=password,
