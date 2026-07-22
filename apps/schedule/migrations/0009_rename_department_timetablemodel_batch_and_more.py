@@ -7,38 +7,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schedule', '0008_remove_department_batch'),
+        ("schedule", "0008_remove_department_batch"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='timetablemodel',
-            old_name='department',
-            new_name='batch',
+            model_name="timetablemodel",
+            old_name="department",
+            new_name="batch",
         ),
         migrations.RemoveField(
-            model_name='department',
-            name='courses',
+            model_name="department",
+            name="courses",
         ),
         migrations.RemoveField(
-            model_name='section',
-            name='department',
+            model_name="section",
+            name="department",
         ),
         migrations.CreateModel(
-            name='Batch',
+            name="Batch",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('batch_name', models.CharField(max_length=255)),
-                ('courses', models.ManyToManyField(to='schedule.course')),
-                ('department', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='schedule.department')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("batch_name", models.CharField(max_length=255)),
+                ("courses", models.ManyToManyField(to="schedule.course")),
+                (
+                    "department",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="schedule.department",
+                    ),
+                ),
             ],
         ),
-        
         migrations.AddField(
-                model_name='section',
-                name='batch',
-                field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='schedule.batch'),
-                preserve_default=False,
-                   ),
-
+            model_name="section",
+            name="batch",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="schedule.batch"
+            ),
+            preserve_default=False,
+        ),
     ]

@@ -6,18 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schedule', '0001_initial'),
+        ("schedule", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='timetable',
+            name="timetable",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('course', models.CharField(max_length=50)),
-                ('venue', models.CharField(max_length=100)),
-                ('instructor', models.CharField(max_length=100)),
-                ('clstime', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("course", models.CharField(max_length=50)),
+                ("venue", models.CharField(max_length=100)),
+                ("instructor", models.CharField(max_length=100)),
+                ("clstime", models.CharField(max_length=100)),
             ],
         ),
     ]

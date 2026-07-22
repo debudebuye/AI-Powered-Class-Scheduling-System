@@ -6,20 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schedule', '0003_delete_timetable'),
+        ("schedule", "0003_delete_timetable"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='timetable',
+            name="timetable",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('section', models.CharField(max_length=100)),
-                ('department', models.CharField(max_length=100)),
-                ('course', models.CharField(max_length=50)),
-                ('venue', models.CharField(max_length=100)),
-                ('instructor', models.CharField(max_length=100)),
-                ('clstime', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("section", models.CharField(max_length=100)),
+                ("department", models.CharField(max_length=100)),
+                ("course", models.CharField(max_length=50)),
+                ("venue", models.CharField(max_length=100)),
+                ("instructor", models.CharField(max_length=100)),
+                ("clstime", models.CharField(max_length=100)),
             ],
         ),
     ]

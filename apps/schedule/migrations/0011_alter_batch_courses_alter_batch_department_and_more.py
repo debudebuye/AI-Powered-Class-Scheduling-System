@@ -7,48 +7,72 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schedule', '0010_pdf_alter_meetingtime_time'),
+        ("schedule", "0010_pdf_alter_meetingtime_time"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='batch',
-            name='courses',
-            field=models.ManyToManyField(to='schedule.course'),
+            model_name="batch",
+            name="courses",
+            field=models.ManyToManyField(to="schedule.course"),
         ),
         migrations.AlterField(
-            model_name='batch',
-            name='department',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='schedule.department'),
+            model_name="batch",
+            name="department",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="schedule.department"
+            ),
         ),
         migrations.AlterField(
-            model_name='course',
-            name='instructors',
-            field=models.ManyToManyField(to='schedule.instructor'),
+            model_name="course",
+            name="instructors",
+            field=models.ManyToManyField(to="schedule.instructor"),
         ),
         migrations.AlterField(
-            model_name='section',
-            name='batch',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='schedule.batch'),
+            model_name="section",
+            name="batch",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="schedule.batch"
+            ),
         ),
         migrations.AlterField(
-            model_name='section',
-            name='course',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='schedule.course'),
+            model_name="section",
+            name="course",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="schedule.course",
+            ),
         ),
         migrations.AlterField(
-            model_name='section',
-            name='instructor',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='schedule.instructor'),
+            model_name="section",
+            name="instructor",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="schedule.instructor",
+            ),
         ),
         migrations.AlterField(
-            model_name='section',
-            name='meeting_time',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='schedule.meetingtime'),
+            model_name="section",
+            name="meeting_time",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="schedule.meetingtime",
+            ),
         ),
         migrations.AlterField(
-            model_name='section',
-            name='room',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='schedule.room'),
+            model_name="section",
+            name="room",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="schedule.room",
+            ),
         ),
     ]

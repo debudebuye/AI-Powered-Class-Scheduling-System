@@ -1,6 +1,7 @@
 """
 Main URL Configuration for AMUCSS project.
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -11,9 +12,9 @@ handler404 = page_not_found
 handler500 = server_error
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('apps.schedule.urls', namespace='schedule')),
-    path('account/', include('apps.account.urls', namespace='account')),
+    path("admin/", admin.site.urls),
+    path("", include("apps.schedule.urls", namespace="schedule")),
+    path("account/", include("apps.account.urls", namespace="account")),
 ]
 
 # Serve media files in development

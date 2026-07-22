@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schedule', '0007_department_batch_alter_department_id_and_more'),
+        ("schedule", "0007_department_batch_alter_department_id_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='department',
-            name='batch',
+            model_name="department",
+            name="batch",
         ),
     ]

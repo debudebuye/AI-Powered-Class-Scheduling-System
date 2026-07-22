@@ -1,7 +1,14 @@
 from django.contrib import admin
 from .models import (
-    Room, Instructor, MeetingTime, Course, Department,
-    Section, TimeTableModel, Batch, PDF
+    Room,
+    Instructor,
+    MeetingTime,
+    Course,
+    Department,
+    Section,
+    TimeTableModel,
+    Batch,
+    PDF,
 )
 
 admin.site.register(Room)
@@ -12,6 +19,8 @@ admin.site.register(Department)
 admin.site.register(Section)
 admin.site.register(TimeTableModel)
 admin.site.register(Batch)  # Registering the Batch model
+
+
 @admin.register(PDF)
 class PDFAdmin(admin.ModelAdmin):
-    list_display = ('title', 'file')
+    list_display = ("title", "file")

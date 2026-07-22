@@ -6,34 +6,46 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-         ('schedule', '0006_timetablemodel'),
+        ("schedule", "0006_timetablemodel"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='department',
-            name='batch',
-            field=models.CharField(choices=[('G2', 'G2'), ('G3', 'G3'), ('G4', 'G4'), ('G5', 'G5')], default='defoult-batch', max_length=15),
+            model_name="department",
+            name="batch",
+            field=models.CharField(
+                choices=[("G2", "G2"), ("G3", "G3"), ("G4", "G4"), ("G5", "G5")],
+                default="defoult-batch",
+                max_length=15,
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='department',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="department",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='instructor',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="instructor",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='room',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="room",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='timetablemodel',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="timetablemodel",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

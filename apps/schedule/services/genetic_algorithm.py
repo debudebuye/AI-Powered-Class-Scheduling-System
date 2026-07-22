@@ -1,6 +1,7 @@
 """
 Genetic Algorithm implementation for timetable generation.
 """
+
 import random as rnd
 from typing import List
 
@@ -15,7 +16,7 @@ MUTATION_RATE = 0.05
 
 class Data:
     """Data container for all entities needed in scheduling."""
-    
+
     def __init__(self):
         self._rooms = Room.objects.all()
         self._meetingTimes = MeetingTime.objects.all()
@@ -41,7 +42,7 @@ class Data:
 
 class Class:
     """Represents a single class in the schedule."""
-    
+
     def __init__(self, id, dept, section, course, batch):
         self.section_id = id
         self.department = dept
@@ -85,7 +86,7 @@ class Class:
 
 class Schedule:
     """Represents a complete schedule solution."""
-    
+
     def __init__(self, data: Data):
         self._data = data
         self._classes = []
@@ -120,19 +121,23 @@ class Schedule:
                         batch.department,
                         section.section_id,
                         course,
-                        batch
+                        batch,
                     )
                     self._classNumb += 1
-                    
+
                     # Random assignments
                     meeting_times = self._data.get_meetingTimes()
                     rooms = self._data.get_rooms()
                     instructors = course.instructors.all()
-                    
-                    newClass.set_meetingTime(meeting_times[rnd.randrange(0, len(meeting_times))])
+
+                    newClass.set_meetingTime(
+                        meeting_times[rnd.randrange(0, len(meeting_times))]
+                    )
                     newClass.set_room(rooms[rnd.randrange(0, len(rooms))])
-                    newClass.set_instructor(instructors[rnd.randrange(0, len(instructors))])
-                    
+                    newClass.set_instructor(
+                        instructors[rnd.randrange(0, len(instructors))]
+                    )
+
                     self._classes.append(newClass)
         return self
 
@@ -140,30 +145,33 @@ class Schedule:
         """Calculate fitness based on number of conflicts."""
         self._numberOfConflicts = 0
         classes = self.get_classes()
-        
+
         for i in range(len(classes)):
             # Check room capacity
-            if classes[i].room.seating_capacity < int(classes[i].course.max_numb_students):
+            if classes[i].room.seating_capacity < int(
+                classes[i].course.max_numb_students
+            ):
                 self._numberOfConflicts += 1
-            
+
             # Check for conflicts with other classes
             for j in range(len(classes)):
                 if j >= i:
-                    if (classes[i].meeting_time == classes[j].meeting_time) and \
-                            (classes[i].section_id != classes[j].section_id):
+                    if (classes[i].meeting_time == classes[j].meeting_time) and (
+                        classes[i].section_id != classes[j].section_id
+                    ):
                         # Room conflict
                         if classes[i].room == classes[j].room:
                             self._numberOfConflicts += 1
                         # Instructor conflict
                         if classes[i].instructor == classes[j].instructor:
                             self._numberOfConflicts += 1
-        
+
         return 1 / (1.0 * self._numberOfConflicts + 1)
 
 
 class Population:
     """Population of schedules."""
-    
+
     def __init__(self, size: int, data: Data):
         self._size = size
         self._data = data
@@ -175,7 +183,7 @@ class Population:
 
 class GeneticAlgorithm:
     """Genetic algorithm for evolving schedules."""
-    
+
     def __init__(self, data: Data):
         self._data = data
 
@@ -186,19 +194,21 @@ class GeneticAlgorithm:
     def _crossover_population(self, pop: Population) -> Population:
         """Create new population through crossover."""
         crossover_pop = Population(0, self._data)
-        
+
         # Keep elite schedules
         for i in range(NUMB_OF_ELITE_SCHEDULES):
             crossover_pop.get_schedules().append(pop.get_schedules()[i])
-        
+
         # Generate rest through crossover
         i = NUMB_OF_ELITE_SCHEDULES
         while i < POPULATION_SIZE:
             schedule1 = self._select_tournament_population(pop).get_schedules()[0]
             schedule2 = self._select_tournament_population(pop).get_schedules()[0]
-            crossover_pop.get_schedules().append(self._crossover_schedule(schedule1, schedule2))
+            crossover_pop.get_schedules().append(
+                self._crossover_schedule(schedule1, schedule2)
+            )
             i += 1
-        
+
         return crossover_pop
 
     def _mutate_population(self, population: Population) -> Population:
