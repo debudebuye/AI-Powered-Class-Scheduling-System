@@ -5,11 +5,25 @@
 <h3 align="center">Intelligent timetable generation powered by evolutionary AI algorithms</h3>
 
 <p align="center">
+  <a href="https://github.com/AI-Powered-Class-Scheduling-System/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License">
+  </a>
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+">
+  </a>
+  <a href="https://www.djangoproject.com/">
+    <img src="https://img.shields.io/badge/django-4.2-green.svg" alt="Django 4.2">
+  </a>
+</p>
+
+<p align="center">
   <a href="#quick-start">Quick Start</a> |
   <a href="#ai-powered-features">Features</a> |
   <a href="#ai-technology">AI Technology</a> |
   <a href="#deployment">Deployment</a> |
-  <a href="#documentation">Docs</a>
+  <a href="#documentation">Docs</a> |
+  <a href="LICENSE">License</a> |
+  <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 ---
@@ -254,6 +268,8 @@ pytest --cov=apps -v
 
 ## Contributing
 
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Install dev dependencies (`pip install -r requirements-dev.txt`)
@@ -265,4 +281,15 @@ pytest --cov=apps -v
 
 ## License
 
-Open-source AI-powered scheduling solution for educational institutions.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+## Code of Conduct
+
+This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior by opening an issue.
+
+## Support
+
+- [Documentation](docs/README.md)
+- [Report a Bug](../../issues/new?template=bug_report.md)
+- [Request a Feature](../../issues/new?template=feature_request.md)
+- [Discussions](../../discussions)

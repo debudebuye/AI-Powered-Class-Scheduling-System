@@ -42,22 +42,21 @@
         </div>
     </div>
 
-    <!-- Success Alert -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="alert-modern alert-success">
-                <i class="fas fa-check-circle"></i>
-                <strong>Timetable Generated Successfully!</strong> 
-                The AI algorithm has created an optimized schedule with no conflicts.
-            </div>
-        </div>
-    </div>
-
     <!-- Timetable Display -->
     <div class="row">
         <div class="col-12">
             <div class="modern-table">
                 {% if schedule %}
+                <!-- Success Alert -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="alert-modern alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Timetable Generated Successfully!</strong> 
+                            The AI algorithm has created an optimized schedule with no conflicts.
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover mb-0">
                         <thead class="table-dark">

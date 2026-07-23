@@ -37,6 +37,32 @@
                             <i class="fas fa-id-badge"></i> Batch ID
                         </label>
                         {{ form.batch_id }}
+                        {% if form.batch_id.help_text %}
+                            <small class="text-muted d-block mt-1">
+                                <i class="fas fa-info-circle"></i> {{ form.batch_id.help_text }}
+                            </small>
+                        {% endif %}
+                        {% if form.batch_id.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.batch_id.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">
+                            <i class="fas fa-tag"></i> Batch Name
+                        </label>
+                        {{ form.batch_name }}
+                        {% if form.batch_name.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.batch_name.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="form-group-modern">
@@ -44,6 +70,13 @@
                             <i class="fas fa-users"></i> Number of Students
                         </label>
                         {{ form.number_of_students }}
+                        {% if form.number_of_students.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.number_of_students.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="form-group-modern">
@@ -51,6 +84,13 @@
                             <i class="fas fa-building"></i> Department
                         </label>
                         {{ form.department }}
+                        {% if form.department.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.department.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="form-group-modern">
@@ -58,6 +98,13 @@
                             <i class="fas fa-book"></i> Courses
                         </label>
                         {{ form.courses }}
+                        {% if form.courses.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.courses.errors %}
+                                    <small><i class="fas fa-exclamation-triangle"></i> {{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="d-flex gap-3 mt-4">

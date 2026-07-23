@@ -50,6 +50,9 @@ class TimetableGeneratorService:
         best_schedule = population.get_schedules()[0]
         schedule = best_schedule.get_classes()
 
+        if not schedule:
+            return []
+
         # Sort by day and time
         schedule.sort(key=lambda cls: cls.meeting_time.get_day_sort_key())
 
@@ -62,7 +65,7 @@ class TimetableGeneratorService:
     @staticmethod
     def _save_to_database(schedule):
         """Save generated schedule to database."""
-        for sec in Section.objects.all():
+        for sec in Section.objects.select_related("batch").all():
             for scd in schedule:
                 if scd.section == sec.section_id:
                     TimeTableModel.objects.create(
@@ -83,14 +86,24 @@ class TimetableGeneratorService:
                 {
                     "section": cls.section_id,
                     "dept": cls.department.dept_name,
-                    "course": f"{cls.course.course_name} ({cls.course.course_number}, {cls.course.max_numb_students})",
-                    "room": f"{cls.room.r_number} ({cls.room.seating_capacity})",
-                    "instructor": f"{cls.instructor.name} ({cls.instructor.uid})",
-                    "meeting_time": [
-                        cls.meeting_time.pid,
-                        cls.meeting_time.day,
-                        cls.meeting_time.time,
-                    ],
+                    "course": {
+                        "course_name": cls.course.course_name,
+                        "course_number": cls.course.course_number,
+                        "max_numb_students": cls.course.max_numb_students,
+                    },
+                    "room": {
+                        "r_number": cls.room.r_number,
+                        "seating_capacity": cls.room.seating_capacity,
+                    },
+                    "instructor": {
+                        "name": cls.instructor.name,
+                        "uid": cls.instructor.uid,
+                    },
+                    "meeting_time": {
+                        "pid": cls.meeting_time.pid,
+                        "day": cls.meeting_time.day,
+                        "time": cls.meeting_time.time,
+                    },
                     "batch": cls.batch.batch_name,
                 }
             )

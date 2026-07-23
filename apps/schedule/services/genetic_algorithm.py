@@ -110,12 +110,39 @@ class Schedule:
 
     def initialize(self):
         """Initialize schedule with random assignments."""
-        sections = Section.objects.all()
+        sections = Section.objects.select_related(
+            "batch", "batch__department"
+        ).prefetch_related("batch__courses", "batch__courses__instructors").all()
+        meeting_times = self._data.get_meetingTimes()
+        rooms = self._data.get_rooms()
+
+        if not meeting_times:
+            raise ValueError("No Meeting Times found. Please add meeting times first.")
+        if not rooms:
+            raise ValueError("No Rooms found. Please add rooms first.")
+
         for section in sections:
             batch = section.batch
             courses = batch.courses.all()
+            if not courses:
+                continue
+            instructors_per_course = []
             for course in courses:
-                for i in range(section.num_class_in_week // len(courses)):
+                instructors = course.instructors.all()
+                if not instructors:
+                    raise ValueError(
+                        f"Course '{course.course_name}' has no instructors assigned. "
+                        "Please assign at least one instructor to each course."
+                    )
+                instructors_per_course.append(instructors)
+
+            num_classes = section.num_class_in_week // len(courses)
+            if num_classes <= 0:
+                continue
+
+            for idx, course in enumerate(courses):
+                instructors = instructors_per_course[idx]
+                for i in range(num_classes):
                     newClass = Class(
                         self._classNumb,
                         batch.department,
@@ -124,11 +151,6 @@ class Schedule:
                         batch,
                     )
                     self._classNumb += 1
-
-                    # Random assignments
-                    meeting_times = self._data.get_meetingTimes()
-                    rooms = self._data.get_rooms()
-                    instructors = course.instructors.all()
 
                     newClass.set_meetingTime(
                         meeting_times[rnd.randrange(0, len(meeting_times))]

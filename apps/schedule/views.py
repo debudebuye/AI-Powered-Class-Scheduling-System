@@ -9,7 +9,7 @@ import os
 from decouple import config
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -41,10 +41,6 @@ from .services import TimetableGeneratorService
 logger = logging.getLogger(__name__)
 
 PAGINATE_BY = 20
-
-
-def _is_staff(user):
-    return user.is_active and user.is_staff
 
 
 # ============================================================================
@@ -90,7 +86,13 @@ def about(request):
 @login_required
 def admindash(request):
     """Admin dashboard."""
-    return render(request, "admindashboard_modern.html")
+    context = {
+        "instructors_count": Instructor.objects.count(),
+        "rooms_count": Room.objects.count(),
+        "courses_count": Course.objects.count(),
+        "sections_count": Section.objects.count(),
+    }
+    return render(request, "admindashboard_modern.html", context)
 
 
 @require_POST
@@ -124,12 +126,14 @@ def addInstructor(request):
 def inst_list_view(request):
     """List all instructors."""
     instructors = Instructor.objects.all()
+    paginator = Paginator(instructors, PAGINATE_BY)
+    page = request.GET.get("page")
+    instructors = paginator.get_page(page)
     return render(request, "inslist_modern.html", {"instructors": instructors})
 
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_instructor(request, pk):
     """Delete an instructor. Staff only."""
     inst = get_object_or_404(Instructor, pk=pk)
@@ -158,12 +162,14 @@ def addRooms(request):
 def room_list(request):
     """List all rooms."""
     rooms = Room.objects.all()
+    paginator = Paginator(rooms, PAGINATE_BY)
+    page = request.GET.get("page")
+    rooms = paginator.get_page(page)
     return render(request, "roomslist_modern.html", {"rooms": rooms})
 
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_room(request, pk):
     """Delete a room. Staff only."""
     rm = get_object_or_404(Room, pk=pk)
@@ -192,12 +198,14 @@ def addTimings(request):
 def meeting_list_view(request):
     """List all meeting times."""
     meeting_times = MeetingTime.objects.all()
+    paginator = Paginator(meeting_times, PAGINATE_BY)
+    page = request.GET.get("page")
+    meeting_times = paginator.get_page(page)
     return render(request, "mtlist_modern.html", {"meeting_times": meeting_times})
 
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_meeting_time(request, pk):
     """Delete a meeting time. Staff only."""
     mt = get_object_or_404(MeetingTime, pk=pk)
@@ -226,12 +234,14 @@ def addCourses(request):
 def course_list_view(request):
     """List all courses."""
     courses = Course.objects.prefetch_related("instructors").all()
+    paginator = Paginator(courses, PAGINATE_BY)
+    page = request.GET.get("page")
+    courses = paginator.get_page(page)
     return render(request, "courseslist_modern.html", {"courses": courses})
 
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_course(request, pk):
     """Delete a course. Staff only."""
     crs = get_object_or_404(Course, pk=pk)
@@ -260,12 +270,14 @@ def addDepts(request):
 def department_list(request):
     """List all departments."""
     departments = Department.objects.all()
+    paginator = Paginator(departments, PAGINATE_BY)
+    page = request.GET.get("page")
+    departments = paginator.get_page(page)
     return render(request, "deptlist_modern.html", {"departments": departments})
 
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_department(request, pk):
     """Delete a department. Staff only."""
     dept = get_object_or_404(Department, pk=pk)
@@ -301,7 +313,6 @@ def batch_list(request):
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_batch(request, pk):
     """Delete a batch. Staff only."""
     batch = get_object_or_404(Batch, pk=pk)
@@ -337,7 +348,6 @@ def section_list(request):
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def delete_section(request, pk):
     """Delete a section. Staff only."""
     sec = get_object_or_404(Section, pk=pk)
@@ -359,13 +369,57 @@ def generate(request):
 
 @require_POST
 @login_required
-@user_passes_test(_is_staff)
 def timetable(request):
-    """Generate timetable using genetic algorithm. Staff only."""
+    """Generate timetable using genetic algorithm."""
     try:
+        # Pre-validate required data
+        missing = []
+        if not Room.objects.exists():
+            missing.append("Rooms")
+        if not Instructor.objects.exists():
+            missing.append("Instructors")
+        if not MeetingTime.objects.exists():
+            missing.append("Meeting Times")
+        if not Course.objects.exists():
+            missing.append("Courses")
+        if not Batch.objects.exists():
+            missing.append("Batches")
+        if not Section.objects.exists():
+            missing.append("Sections")
+
+        if missing:
+            messages.error(
+                request,
+                "Cannot generate timetable. Please add the following first: "
+                + ", ".join(missing) + ".",
+            )
+            return redirect("schedule:generate")
+
+        sections_with_classes = Section.objects.filter(num_class_in_week__gt=0).count()
+        if sections_with_classes == 0:
+            messages.error(
+                request,
+                "No sections have 'classes per week' set to more than 0. "
+                "Please edit your sections and set a value greater than 0.",
+            )
+            return redirect("schedule:generate")
+
         schedule = TimetableGeneratorService.generate()
         sections = Section.objects.select_related("batch", "course").all()
         times = MeetingTime.objects.all()
+
+        if not schedule:
+            messages.warning(
+                request,
+                "The algorithm could not generate any classes. "
+                "Make sure your Sections have 'classes per week' > 0, "
+                "Batches have Courses assigned, and Courses have Instructors assigned.",
+            )
+        else:
+            messages.success(
+                request,
+                f"Timetable generated successfully with {len(schedule)} classes!",
+            )
 
         return render(
             request,
@@ -392,6 +446,7 @@ def edittt(request):
 # ============================================================================
 
 
+@login_required
 def pdf_list(request):
     """List all PDFs for viewer."""
     pdfs = PDF.objects.all()
@@ -458,9 +513,11 @@ def download_pdf(request, pk):
     if not os.path.exists(file_path):
         messages.error(request, "PDF file not found on server.")
         return redirect("schedule:lists")
+    fh = open(file_path, "rb")
     response = FileResponse(
-        open(file_path, "rb"), as_attachment=True, filename=os.path.basename(file_path)
+        fh, as_attachment=True, filename=os.path.basename(file_path)
     )
+    response.on_close = fh.close
     return response
 
 

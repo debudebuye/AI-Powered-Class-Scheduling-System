@@ -4,9 +4,11 @@ Rate limiting and security middleware.
 
 import logging
 import time
+from functools import wraps
 
 from django.core.cache import cache
 from django.shortcuts import render
+from django.urls import reverse, resolve
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +58,26 @@ def _record_attempt(key, window_seconds):
         cache.set(key, (1, now), CACHE_TTL)
 
 
+def _get_login_paths():
+    """Dynamically resolve login URL paths."""
+    paths = ["/account/login/"]
+    try:
+        paths.append(reverse("schedule:adminlogin"))
+    except Exception:
+        pass
+    return paths
+
+
+def _get_register_paths():
+    """Dynamically resolve registration URL paths."""
+    paths = ["/account/register/"]
+    try:
+        paths.append(reverse("account:register"))
+    except Exception:
+        pass
+    return paths
+
+
 class SecurityHeadersMiddleware:
     """Add security headers to all responses."""
 
@@ -64,7 +86,6 @@ class SecurityHeadersMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        response["X-Content-Type-Options"] = "nosniff"
         response["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
         return response
@@ -75,9 +96,13 @@ class LoginRateLimitMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
+        self._login_paths = None
 
     def __call__(self, request):
-        if request.method == "POST" and request.path in ("/manage/", "/account/login/"):
+        if self._login_paths is None:
+            self._login_paths = _get_login_paths()
+
+        if request.method == "POST" and request.path in self._login_paths:
             ip = _get_client_ip(request)
             key = f"login:{ip}"
 
@@ -100,9 +125,13 @@ class RegistrationRateLimitMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
+        self._register_paths = None
 
     def __call__(self, request):
-        if request.method == "POST" and request.path == "/account/register/":
+        if self._register_paths is None:
+            self._register_paths = _get_register_paths()
+
+        if request.method == "POST" and request.path in self._register_paths:
             ip = _get_client_ip(request)
             key = f"register:{ip}"
 

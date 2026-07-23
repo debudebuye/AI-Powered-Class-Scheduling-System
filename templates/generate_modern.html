@@ -40,9 +40,12 @@
                 </div>
                 
                 <div class="text-center">
-                    <a href="{% url 'schedule:timetable' %}" class="btn btn-modern btn-primary-modern btn-lg">
-                        <i class="fas fa-magic"></i> Generate Timetable Now
-                    </a>
+                    <form method="post" action="{% url 'schedule:timetable' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-modern btn-primary-modern btn-lg">
+                            <i class="fas fa-magic"></i> Generate Timetable Now
+                        </button>
+                    </form>
                 </div>
                 
                 <div class="mt-4">
@@ -68,11 +71,11 @@
                 <ul class="text-muted">
                     <li>Instructors</li>
                     <li>Rooms</li>
-                    <li>Courses</li>
+                    <li>Courses (with Instructors assigned)</li>
                     <li>Meeting Times</li>
                     <li>Departments</li>
-                    <li>Batches</li>
-                    <li>Sections</li>
+                    <li>Batches (with Courses assigned)</li>
+                    <li>Sections (with <strong>classes per week &gt; 0</strong>)</li>
                 </ul>
             </div>
         </div>
